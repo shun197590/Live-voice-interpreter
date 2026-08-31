@@ -1,13 +1,13 @@
 {
   "name": "雙向即時口譯",
   "short_name": "即時口譯",
-  "description": "一鍵開啟 ChatGPT Live Voice 雙向即時口譯",
+  "description": "繁體中文與 9 種語言雙向即時口譯啟動器",
   "lang": "zh-Hant",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#F0FDFA",
-  "theme_color": "#0F766E",
+  "background_color": "#f0fdfa",
+  "theme_color": "#0f766e",
   "icons": [
     {
       "src": "./icon-192.png",
