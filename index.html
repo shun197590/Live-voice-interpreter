@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0F766E" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="雙向即時口譯" />
+  <link rel="manifest" href="./manifest.json" />
+  <link rel="apple-touch-icon" href="./icon-192.png" />
+  <title>雙向即時口譯</title>
+  <style>
+    :root{--bg1:#ecfeff;--bg2:#f0fdfa;--card:#fff;--ink:#0f172a;--muted:#475569;--primary:#0f766e;--primary2:#14b8a6;--line:#cbd5e1;--warn:#fff7ed;--warnink:#9a3412}
+    *{box-sizing:border-box}body{margin:0;min-height:100vh;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;color:var(--ink);background:linear-gradient(160deg,var(--bg1),var(--bg2));display:flex;justify-content:center}.wrap{width:min(720px,100%);padding:22px 16px 38px}.hero{text-align:center;padding:18px 8px 8px}.logo{width:92px;height:92px;border-radius:26px;margin:0 auto 14px;display:grid;place-items:center;color:#fff;font-weight:900;font-size:34px;background:linear-gradient(145deg,var(--primary),var(--primary2));box-shadow:0 10px 30px rgba(15,118,110,.22)}h1{font-size:30px;line-height:1.2;margin:8px 0}.sub{color:var(--muted);font-size:16px;line-height:1.7;margin:0 auto 14px}.card{background:rgba(255,255,255,.96);border:1px solid rgba(203,213,225,.7);border-radius:22px;padding:20px;margin:14px 0;box-shadow:0 8px 25px rgba(15,23,42,.06)}.status{font-weight:800;font-size:18px;margin-bottom:10px}.pill{display:inline-block;padding:6px 10px;border-radius:999px;background:#ccfbf1;color:#115e59;font-weight:800;font-size:13px}.btn{appearance:none;border:0;border-radius:16px;width:100%;padding:17px 18px;font-size:19px;font-weight:900;cursor:pointer;margin-top:10px}.btn-primary{background:linear-gradient(145deg,var(--primary),var(--primary2));color:#fff}.btn-secondary{background:#f8fafc;color:var(--ink);border:1px solid var(--line)}.btn-danger{background:#fff1f2;color:#9f1239;border:1px solid #fecdd3}.steps{margin:12px 0 0;padding-left:22px;color:var(--muted);line-height:1.8}.prompt{background:#f8fafc;border:1px dashed #94a3b8;border-radius:14px;padding:14px;font-size:14px;line-height:1.7;white-space:pre-wrap}.note{background:var(--warn);color:var(--warnink);border-radius:14px;padding:12px 14px;font-size:14px;line-height:1.65}.small{font-size:13px;color:var(--muted);line-height:1.6}.hidden{display:none}.ok{color:#047857;font-weight:800}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <section class="hero">
+    <div class="logo">譯</div>
+    <h1>雙向即時口譯</h1>
+    <p class="sub">手機桌面一鍵開啟 ChatGPT Live Voice<br>固定口譯規則只需設定一次</p>
+    <span class="pill">GPT‑Live‑1 建議模式</span>
+  </section>
+
+  <section id="readyCard" class="card hidden">
+    <div class="status">✅ 一鍵模式已啟用</div>
+    <p class="small">若未自動跳轉，請按下方按鈕。進入 Live 後，只要先說「中文對英文」或「中文對西班牙文」即可開始。</p>
+    <button class="btn btn-primary" onclick="launchChatGPT()">立即開啟雙向口譯</button>
+    <button class="btn btn-secondary" onclick="showSetup()">重新查看首次設定</button>
+  </section>
+
+  <section id="setupCard" class="card">
+    <div class="status">首次設定｜只需做一次</div>
+    <ol class="steps">
+      <li>先安裝官方 ChatGPT App，並登入你的帳號。</li>
+      <li>ChatGPT App → <b>Settings → Voice → 選擇 Live</b>。</li>
+      <li>同一頁開啟 <b>Start with Voice</b>。</li>
+      <li>將下方「固定口譯規則」放進 ChatGPT 的自訂指示（Custom Instructions）。</li>
+      <li>回到本頁，按「複製固定口譯規則」，貼入自訂指示後儲存。</li>
+      <li>最後按「完成首次設定並測試」。之後點手機桌面圖示即可。</li>
+    </ol>
+
+    <div class="status" style="margin-top:16px">固定口譯規則</div>
+    <div id="promptBox" class="prompt">當我啟用語音對話並指定「中文對某語言」時，請立即進入雙向即時口譯模式。
+
+規則：
+1. 聽到繁體中文時，立即翻譯成我指定的另一種語言。
+2. 聽到另一種語言時，立即翻譯成繁體中文。
+3. 只輸出口譯結果，不回答內容、不補充說明、不分析、不摘要。
+4. 保留原意、數字、日期、姓名、公司名稱、職稱與專有名詞。
+5. 採自然、禮貌、適合商務接待的語氣。
+6. 若沒有聽清楚，不要猜測，請簡短說「請再說一次」。
+7. 開始後持續遵守以上規則，直到我說「結束口譯」。</div>
+
+    <button class="btn btn-secondary" onclick="copyPrompt()">複製固定口譯規則</button>
+    <p id="copyMsg" class="small"></p>
+
+    <div class="note">提醒：PWA 本身不會保存你的 ChatGPT 密碼或 API Key，也不直接呼叫 OpenAI API。它只負責從桌面快速啟動 ChatGPT；Live Voice 與使用額度仍由你的 ChatGPT 帳號提供。</div>
+    <button class="btn btn-primary" onclick="finishSetup()">完成首次設定並測試</button>
+  </section>
+
+  <section class="card">
+    <div class="status">使用方式</div>
+    <p class="small"><b>以後每次：</b>點手機桌面「雙向即時口譯」 → ChatGPT 開啟 Live → 說「中文對英文」 → 直接把手機放在雙方中間開始交談。</p>
+    <p class="small">例如：<b>「中文對日文」</b>、<b>「中文對西班牙文」</b>、<b>「中文對越南文」</b>。</p>
+  </section>
+
+  <section class="card">
+    <div class="status">如果手機沒有自動開啟 App</div>
+    <p class="small">部分 iPhone／Android 版本會阻擋網頁自動喚起其他 App。這時只要按「立即開啟雙向口譯」即可；若仍停在網頁版，請直接開 ChatGPT App。</p>
+    <button class="btn btn-secondary" onclick="launchChatGPT()">再試一次開啟 ChatGPT</button>
+  </section>
+
+  <section class="card">
+    <div class="status">PWA 安裝</div>
+    <p class="small"><b>iPhone：</b>Safari 開啟本網站 → 分享 → 加入主畫面。</p>
+    <p class="small"><b>Android：</b>Chrome 開啟本網站 → ⋮ → 加到主畫面／安裝應用程式。</p>
+    <button class="btn btn-danger" onclick="resetSetup()">清除本機一鍵模式設定</button>
+  </section>
+</div>
+<script>
+const WEB_FALLBACK = "https://chatgpt.com/";
+function isStandalone(){return window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;}
+function launchChatGPT(){let fallbackDone=false;const timer=setTimeout(()=>{if(!fallbackDone){fallbackDone=true;window.location.href=WEB_FALLBACK;}},1300);try{window.location.href="chatgpt://";}catch(e){clearTimeout(timer);window.location.href=WEB_FALLBACK;}}
+async function copyPrompt(){const text=document.getElementById("promptBox").innerText;const msg=document.getElementById("copyMsg");try{await navigator.clipboard.writeText(text);msg.textContent="✅ 已複製。請貼到 ChatGPT 的 Custom Instructions／自訂指示。";msg.className="small ok";}catch(e){msg.textContent="無法自動複製，請長按上方文字後手動複製。";}}
+function finishSetup(){localStorage.setItem("interpreterPwaReady","1");showReady();setTimeout(launchChatGPT,300);}
+function resetSetup(){localStorage.removeItem("interpreterPwaReady");showSetup();}
+function showReady(){document.getElementById("setupCard").classList.add("hidden");document.getElementById("readyCard").classList.remove("hidden");}
+function showSetup(){document.getElementById("readyCard").classList.add("hidden");document.getElementById("setupCard").classList.remove("hidden");}
+window.addEventListener("load",()=>{const ready=localStorage.getItem("interpreterPwaReady")==="1";if(ready){showReady();if(isStandalone())setTimeout(launchChatGPT,450);}else{showSetup();}});
+if("serviceWorker" in navigator){navigator.serviceWorker.register("./service-worker.js").catch(()=>{});}
+</script>
+</body>
+</html>
