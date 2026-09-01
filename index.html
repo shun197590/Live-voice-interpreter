@@ -11,21 +11,13 @@
   <title>雙向即時口譯</title>
   <style>
     :root{--bg:#f0fdfa;--card:#fff;--ink:#0f172a;--muted:#64748b;--primary:#0f766e;--primary2:#14b8a6;--line:#cbd5e1}
-    *{box-sizing:border-box}
-    body{margin:0;background:linear-gradient(160deg,#ecfeff,#f0fdfa);min-height:100vh;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;color:var(--ink)}
-    .wrap{max-width:760px;margin:auto;padding:18px 16px 40px}
-    .hero{text-align:center;padding:16px 0}
-    .logo{width:88px;height:88px;border-radius:24px;margin:auto;display:grid;place-items:center;background:linear-gradient(145deg,var(--primary),var(--primary2));color:#fff;font-size:34px;font-weight:900;box-shadow:0 10px 28px rgba(15,118,110,.2)}
-    h1{font-size:30px;margin:14px 0 6px}.sub{color:var(--muted);line-height:1.6}
-    .card{background:rgba(255,255,255,.96);border:1px solid #dbeafe;border-radius:22px;padding:18px;margin:14px 0;box-shadow:0 8px 24px rgba(15,23,42,.05)}
-    h2{font-size:20px;margin:0 0 12px}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-    .lang{border:1px solid var(--line);background:#fff;border-radius:16px;padding:15px 12px;font-size:17px;font-weight:800;text-align:left;cursor:pointer}
-    .lang.active{border:2px solid var(--primary);background:#ecfdf5}
-    .btn{width:100%;border:0;border-radius:16px;padding:16px;font-size:18px;font-weight:900;cursor:pointer;margin-top:10px}
-    .primary{background:linear-gradient(145deg,var(--primary),var(--primary2));color:#fff}.secondary{background:#f8fafc;color:var(--ink);border:1px solid var(--line)}
-    .prompt{white-space:pre-wrap;background:#f8fafc;border:1px dashed #94a3b8;border-radius:14px;padding:14px;line-height:1.7;font-size:14px}
-    .small{font-size:13px;color:var(--muted);line-height:1.65}.notice{background:#fff7ed;color:#9a3412;border-radius:14px;padding:12px 14px;line-height:1.65;font-size:14px}.last{font-weight:800;color:#115e59}
-    @media(max-width:520px){.grid{grid-template-columns:1fr} h1{font-size:27px}}
+    *{box-sizing:border-box}body{margin:0;min-height:100vh;background:linear-gradient(160deg,#ecfeff,#f0fdfa);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;color:var(--ink)}
+    .wrap{max-width:760px;margin:auto;padding:18px 16px 40px}.hero{text-align:center;padding:16px 0}.logo{width:88px;height:88px;border-radius:24px;margin:auto;display:grid;place-items:center;background:linear-gradient(145deg,var(--primary),var(--primary2));color:#fff;font-size:34px;font-weight:900;box-shadow:0 10px 28px rgba(15,118,110,.20)}
+    h1{font-size:30px;margin:14px 0 6px}.sub{color:var(--muted);line-height:1.6}.card{background:rgba(255,255,255,.96);border:1px solid #dbeafe;border-radius:22px;padding:18px;margin:14px 0;box-shadow:0 8px 24px rgba(15,23,42,.05)}
+    h2{font-size:20px;margin:0 0 12px}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.lang{border:1px solid var(--line);background:#fff;border-radius:16px;padding:15px 12px;font-size:17px;font-weight:800;text-align:left;cursor:pointer}.lang.active{border:2px solid var(--primary);background:#ecfdf5}
+    .btn{width:100%;border:0;border-radius:16px;padding:16px;font-size:18px;font-weight:900;cursor:pointer;margin-top:10px}.primary{background:linear-gradient(145deg,var(--primary),var(--primary2));color:#fff}.secondary{background:#f8fafc;color:var(--ink);border:1px solid var(--line)}
+    .prompt{white-space:pre-wrap;background:#f8fafc;border:1px dashed #94a3b8;border-radius:14px;padding:14px;line-height:1.7;font-size:14px}.small{font-size:13px;color:var(--muted);line-height:1.65}.notice{background:#fff7ed;color:#9a3412;border-radius:14px;padding:12px 14px;line-height:1.65;font-size:14px;margin-top:12px}.last{font-weight:800;color:#115e59}
+    @media(max-width:520px){.grid{grid-template-columns:1fr}h1{font-size:27px}}
   </style>
 </head>
 <body>
@@ -33,21 +25,30 @@
   <section class="hero"><div class="logo">譯</div><h1>雙向即時口譯</h1><div class="sub">先選語言，再開啟 ChatGPT Voice</div></section>
   <section class="card"><h2>① 請選擇口譯語言</h2><div class="grid" id="languageGrid"></div><p class="small">上次選擇：<span id="lastChoice" class="last">尚未設定</span></p></section>
   <section class="card"><h2>② 口譯指令</h2><div id="promptBox" class="prompt">請先選擇語言。</div><button class="btn secondary" onclick="copyPrompt()">複製口譯指令</button><p id="copyMsg" class="small"></p></section>
-  <section class="card"><h2>③ 開啟 ChatGPT</h2><button class="btn primary" onclick="launchChatGPT()">開啟 ChatGPT</button><p class="small">若已在 ChatGPT 的自訂指示中設定固定口譯規則，進入 Voice 後通常只需說「開始口譯」或直接開始交談。</p><div class="notice">重要：目前 PWA／一般網頁只能嘗試開啟 ChatGPT App，不能保證強制建立新對話或直接啟動 Live Voice。若要更接近「一鍵直達 Voice」，iPhone 建議使用「捷徑」App；Android 則可查看 ChatGPT 圖示長按後是否有 Voice 快捷動作。</div></section>
-  <section class="card"><h2>④ 建議固定規則</h2><p class="small">可將以下規則預先放入 ChatGPT 自訂指示，之後每次只需指定當次語言：</p><div class="prompt">當我啟用語音並指定「中文對某語言」時，立即進入雙向即時口譯模式。繁體中文翻成指定語言，指定語言翻成繁體中文。只輸出口譯結果，不回答、不補充、不分析、不摘要。保留姓名、公司、職稱、數字、日期與專有名詞。語氣自然、禮貌、適合商務接待。若沒聽清楚，請簡短要求重說。直到我說「結束口譯」才停止。</div></section>
+  <section class="card"><h2>③ 開啟 ChatGPT</h2><button class="btn primary" onclick="launchChatGPT()">開始即時口譯</button><p class="small">建議先在 ChatGPT App 的設定中開啟 Voice／Live，並設定固定的雙向口譯 Custom Instructions。</p><div class="notice">重要：目前一般 PWA／網頁只能嘗試開啟 ChatGPT App，無法保證強制建立新對話或直接指定 Live Voice。若 ChatGPT App 已支援並開啟「Start with Voice」，開啟到新的或空白對話時，會更接近自動進入 Voice 的效果。</div></section>
+  <section class="card"><h2>④ 建議固定規則</h2><p class="small">可將以下規則預先放入 ChatGPT 自訂指示，之後每次只需指定當次語言：</p><div class="prompt">當我啟用語音對話並指定「中文對某語言」時，請立即進入雙向即時口譯模式。
+繁體中文請翻譯成我指定的語言；對方使用指定語言時，請翻譯成繁體中文。
+只輸出口譯結果，不回答內容、不補充、不分析、不摘要。
+完整保留姓名、公司名稱、職稱、日期、數字、地址及專有名詞。
+翻譯語氣自然、禮貌、正式，適合政府機關、企業參訪、會議與國際訪賓接待。
+若沒有聽清楚，不要自行猜測，請簡短要求對方再說一次。
+持續執行雙向口譯，直到我說「結束口譯」。</div></section>
 </div>
 <script>
-const languages=[
-{id:'en',label:'🇺🇸 英文',name:'英文'},{id:'ja',label:'🇯🇵 日文',name:'日文'},{id:'es',label:'🇪🇸 西班牙文',name:'西班牙文'},
-{id:'ko',label:'🇰🇷 韓文',name:'韓文'},{id:'vi',label:'🇻🇳 越南文',name:'越南文'},{id:'id',label:'🇮🇩 印尼文',name:'印尼文'},
-{id:'th',label:'🇹🇭 泰文',name:'泰文'},{id:'fr',label:'🇫🇷 法文',name:'法文'},{id:'de',label:'🇩🇪 德文',name:'德文'}];
+const languages=[{id:"en",label:"🇺🇸 英文",name:"英文"},{id:"ja",label:"🇯🇵 日文",name:"日文"},{id:"es",label:"🇪🇸 西班牙文",name:"西班牙文"},{id:"ko",label:"🇰🇷 韓文",name:"韓文"},{id:"vi",label:"🇻🇳 越南文",name:"越南文"},{id:"id",label:"🇮🇩 印尼文",name:"印尼文"},{id:"th",label:"🇹🇭 泰文",name:"泰文"},{id:"fr",label:"🇫🇷 法文",name:"法文"},{id:"de",label:"🇩🇪 德文",name:"德文"}];
 let selected=null;
-function makePrompt(name){return `現在進入繁體中文與${name}雙向即時口譯。\n繁體中文請立即翻譯成${name}；${name}請立即翻譯成繁體中文。\n只輸出口譯結果，不回答內容、不補充說明、不分析、不摘要。\n保留原意、數字、日期、姓名、公司名稱、職稱與專有名詞。\n採自然、禮貌、適合商務接待的語氣。\n如果沒有聽清楚，請不要猜測，簡短請對方再說一次。\n持續遵守以上規則，直到我說「結束口譯」。`;}
-function render(){const grid=document.getElementById('languageGrid');grid.innerHTML='';languages.forEach(l=>{const b=document.createElement('button');b.className='lang'+(selected?.id===l.id?' active':'');b.textContent=l.label;b.onclick=()=>chooseLanguage(l.id);grid.appendChild(b)});const last=localStorage.getItem('lastInterpreterLanguage');if(last){const item=languages.find(x=>x.id===last);if(item)document.getElementById('lastChoice').textContent=item.label}}
-function chooseLanguage(id){selected=languages.find(x=>x.id===id);localStorage.setItem('lastInterpreterLanguage',id);document.getElementById('promptBox').textContent=makePrompt(selected.name);document.getElementById('lastChoice').textContent=selected.label;render()}
-async function copyPrompt(){if(!selected){document.getElementById('copyMsg').textContent='請先選擇語言。';return}const text=makePrompt(selected.name);try{await navigator.clipboard.writeText(text);document.getElementById('copyMsg').textContent='✅ 已複製，可直接貼到 ChatGPT。'}catch(e){document.getElementById('copyMsg').textContent='無法自動複製，請長按文字手動複製。'}}
-function launchChatGPT(){const fallback=setTimeout(()=>{window.location.href='https://chatgpt.com/'},1200);try{window.location.href='chatgpt://'}catch(e){clearTimeout(fallback);window.location.href='https://chatgpt.com/'}}
-window.addEventListener('load',()=>{const last=localStorage.getItem('lastInterpreterLanguage');if(last&&languages.some(x=>x.id===last)){selected=languages.find(x=>x.id===last);document.getElementById('promptBox').textContent=makePrompt(selected.name)}render();if('serviceWorker'in navigator){navigator.serviceWorker.register('./service-worker.js').catch(()=>{})}})
+function makePrompt(name){return `現在進入繁體中文與${name}雙向即時口譯。
+繁體中文請立即翻譯成${name}；${name}請立即翻譯成繁體中文。
+只輸出口譯結果，不回答內容、不補充說明、不分析、不摘要。
+保留原意、數字、日期、姓名、公司名稱、職稱與專有名詞。
+採自然、禮貌、適合商務接待的語氣。
+如果沒有聽清楚，請不要猜測，簡短請對方再說一次。
+持續遵守以上規則，直到我說「結束口譯」。`;}
+function render(){const grid=document.getElementById("languageGrid");grid.innerHTML="";languages.forEach(l=>{const b=document.createElement("button");b.className="lang"+(selected?.id===l.id?" active":"");b.textContent=l.label;b.onclick=()=>chooseLanguage(l.id);grid.appendChild(b)});const last=localStorage.getItem("lastInterpreterLanguage");if(last){const item=languages.find(x=>x.id===last);if(item)document.getElementById("lastChoice").textContent=item.label}}
+function chooseLanguage(id){selected=languages.find(x=>x.id===id);localStorage.setItem("lastInterpreterLanguage",id);document.getElementById("promptBox").textContent=makePrompt(selected.name);document.getElementById("lastChoice").textContent=selected.label;render()}
+async function copyPrompt(){if(!selected){document.getElementById("copyMsg").textContent="請先選擇語言。";return}const text=makePrompt(selected.name);try{await navigator.clipboard.writeText(text);document.getElementById("copyMsg").textContent="✅ 已複製，可直接貼到 ChatGPT。"}catch(e){document.getElementById("copyMsg").textContent="無法自動複製，請長按文字手動複製。"}}
+function launchChatGPT(){const fallback=setTimeout(()=>{window.location.href="https://chatgpt.com/"},1300);try{window.location.href="chatgpt://"}catch(e){clearTimeout(fallback);window.location.href="https://chatgpt.com/"}}
+window.addEventListener("load",()=>{const last=localStorage.getItem("lastInterpreterLanguage");if(last&&languages.some(x=>x.id===last)){selected=languages.find(x=>x.id===last);document.getElementById("promptBox").textContent=makePrompt(selected.name)}render();if("serviceWorker" in navigator){navigator.serviceWorker.register("./service-worker.js").catch(()=>{})}});
 </script>
 </body>
 </html>
