@@ -8,50 +8,325 @@
 <meta name="apple-mobile-web-app-title" content="雙向即時口譯">
 <link rel="manifest" href="./manifest.json">
 <link rel="apple-touch-icon" href="./icon-192.png">
-<title>多國語言雙向即時口譯｜PWA 10</title>
+<title>多國語言雙向即時口譯｜PWA 10.1</title>
+
 <style>
-:root{--p:#0f766e;--p2:#14b8a6;--ink:#0f172a;--muted:#64748b;--line:#cbd5e1}
-*{box-sizing:border-box}body{margin:0;min-height:100vh;background:linear-gradient(160deg,#ecfeff,#f0fdfa);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;color:var(--ink)}
-.wrap{max-width:780px;margin:auto;padding:18px 16px 42px}.hero{text-align:center;padding:14px 0 10px}.logo{width:88px;height:88px;margin:auto;border-radius:24px;display:grid;place-items:center;background:linear-gradient(145deg,var(--p),var(--p2));color:#fff;font-size:34px;font-weight:900;box-shadow:0 10px 28px rgba(15,118,110,.2)}
-h1{margin:14px 0 6px;font-size:29px}.sub,.small{color:var(--muted);line-height:1.65}.badge{display:inline-block;margin-top:8px;padding:6px 11px;border-radius:999px;background:#ccfbf1;color:#115e59;font-size:13px;font-weight:800}
-.card{margin:14px 0;padding:18px;border-radius:22px;background:#fff;border:1px solid #dbeafe;box-shadow:0 8px 24px rgba(15,23,42,.05)}h2{margin:0 0 12px;font-size:20px}
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.lang{border:1px solid var(--line);background:#fff;border-radius:16px;padding:15px 12px;font-size:17px;font-weight:800;text-align:left;cursor:pointer}.lang.active{border:2px solid var(--p);background:#ecfdf5}
-.btn{width:100%;border:0;border-radius:16px;padding:16px;margin-top:10px;font-size:18px;font-weight:900;cursor:pointer}.primary{color:#fff;background:linear-gradient(145deg,var(--p),var(--p2))}.secondary{background:#f8fafc;color:var(--ink);border:1px solid var(--line)}
-.prompt{white-space:pre-wrap;background:#f8fafc;border:1px dashed #94a3b8;border-radius:14px;padding:14px;line-height:1.65;font-size:14px;max-height:340px;overflow:auto}.notice{margin-top:12px;padding:12px 14px;border-radius:14px;background:#fff7ed;color:#9a3412;line-height:1.65;font-size:14px}.quick{padding:12px;border-radius:14px;background:#ecfeff;color:#155e75;font-weight:900;text-align:center}
-@media(max-width:520px){.grid{grid-template-columns:1fr}h1{font-size:26px}}
+:root{
+  --p:#0f766e;
+  --p2:#14b8a6;
+  --ink:#0f172a;
+  --muted:#64748b;
+  --line:#cbd5e1;
+  --soft:#ecfdf5;
+  --cyan:#ecfeff;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  min-height:100vh;
+  background:linear-gradient(160deg,#ecfeff,#f0fdfa);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC",
+  "PingFang TC","Microsoft JhengHei",sans-serif;
+  color:var(--ink);
+}
+.wrap{
+  max-width:780px;
+  margin:auto;
+  padding:18px 16px 42px;
+}
+.hero{
+  text-align:center;
+  padding:14px 0 10px;
+}
+.logo{
+  width:88px;
+  height:88px;
+  margin:auto;
+  border-radius:24px;
+  display:grid;
+  place-items:center;
+  background:linear-gradient(145deg,var(--p),var(--p2));
+  color:#fff;
+  font-size:34px;
+  font-weight:900;
+  box-shadow:0 10px 28px rgba(15,118,110,.20);
+}
+h1{
+  margin:14px 0 6px;
+  font-size:29px;
+  line-height:1.25;
+}
+.sub,.small{
+  color:var(--muted);
+  line-height:1.65;
+}
+.badge{
+  display:inline-block;
+  margin-top:8px;
+  padding:6px 11px;
+  border-radius:999px;
+  background:#ccfbf1;
+  color:#115e59;
+  font-size:13px;
+  font-weight:800;
+}
+.card{
+  margin:14px 0;
+  padding:18px;
+  border-radius:22px;
+  background:#fff;
+  border:1px solid #dbeafe;
+  box-shadow:0 8px 24px rgba(15,23,42,.05);
+}
+h2{
+  margin:0 0 12px;
+  font-size:20px;
+}
+
+/* ===== 語言滾動選單 ===== */
+.language-scroll-shell{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  width:100%;
+}
+.scroll-arrow{
+  flex:0 0 42px;
+  width:42px;
+  height:48px;
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:#fff;
+  color:var(--p);
+  font-size:24px;
+  font-weight:900;
+  cursor:pointer;
+  box-shadow:0 3px 10px rgba(15,23,42,.06);
+}
+.scroll-arrow:active{transform:scale(.96)}
+.language-scroll{
+  display:flex;
+  gap:10px;
+  overflow-x:auto;
+  scroll-behavior:smooth;
+  scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+  padding:4px 2px 8px;
+  flex:1 1 auto;
+}
+.language-scroll::-webkit-scrollbar{display:none}
+.lang{
+  flex:0 0 auto;
+  min-width:132px;
+  scroll-snap-align:center;
+  border:1px solid var(--line);
+  background:#fff;
+  border-radius:999px;
+  padding:13px 18px;
+  font-size:16px;
+  font-weight:850;
+  text-align:center;
+  cursor:pointer;
+  white-space:nowrap;
+  transition:.16s ease;
+  box-shadow:0 3px 10px rgba(15,23,42,.04);
+}
+.lang:active{transform:scale(.97)}
+.lang.active{
+  color:#fff;
+  border-color:var(--p);
+  background:linear-gradient(145deg,var(--p),var(--p2));
+  box-shadow:0 6px 16px rgba(15,118,110,.22);
+}
+.scroll-hint{
+  margin:6px 0 0;
+  color:var(--muted);
+  font-size:12px;
+  text-align:center;
+}
+
+/* ===== 一般按鈕 ===== */
+.btn{
+  width:100%;
+  border:0;
+  border-radius:16px;
+  padding:15px 16px;
+  margin-top:10px;
+  font-size:17px;
+  font-weight:900;
+  cursor:pointer;
+}
+.primary{
+  color:#fff;
+  background:linear-gradient(145deg,var(--p),var(--p2));
+}
+.secondary{
+  color:var(--ink);
+  background:#f8fafc;
+  border:1px solid var(--line);
+}
+.rule-toggle{
+  color:#115e59;
+  background:#ecfdf5;
+  border:1px solid #99f6e4;
+}
+.rule-toggle .icon{
+  display:inline-block;
+  width:1.25em;
+}
+
+/* ===== 指令 / 規則 ===== */
+.quick{
+  padding:13px;
+  border-radius:14px;
+  background:var(--cyan);
+  color:#155e75;
+  font-weight:900;
+  text-align:center;
+  font-size:18px;
+}
+.prompt{
+  white-space:pre-wrap;
+  background:#f8fafc;
+  border:1px dashed #94a3b8;
+  border-radius:14px;
+  padding:14px;
+  line-height:1.65;
+  font-size:14px;
+  max-height:360px;
+  overflow:auto;
+}
+.rule-panel{
+  display:none;
+  margin-top:12px;
+}
+.rule-panel.show{
+  display:block;
+}
+.rule-status{
+  margin-top:8px;
+  text-align:center;
+  font-size:12px;
+  color:var(--muted);
+}
+.notice{
+  margin-top:12px;
+  padding:12px 14px;
+  border-radius:14px;
+  background:#fff7ed;
+  color:#9a3412;
+  line-height:1.65;
+  font-size:14px;
+}
+.last{
+  font-weight:900;
+  color:#115e59;
+}
+
+@media(max-width:520px){
+  h1{font-size:26px}
+  .wrap{padding-left:12px;padding-right:12px}
+  .card{padding:16px}
+  .scroll-arrow{flex-basis:38px;width:38px}
+  .lang{min-width:126px;padding:12px 16px}
+}
 </style>
 </head>
+
 <body>
 <div class="wrap">
-<section class="hero"><div class="logo">譯</div><h1>多國語言雙向即時口譯</h1><div class="sub">PWA 10｜高穩定版<br>先選語言，再開啟 ChatGPT Voice</div><span class="badge">12 種語言</span></section>
 
-<section class="card"><h2>① 請選擇口譯語言</h2><div class="grid" id="languageGrid"></div><p class="small">上次選擇：<span id="lastChoice">尚未設定</span></p></section>
+<section class="hero">
+  <div class="logo">譯</div>
+  <h1>多國語言雙向即時口譯</h1>
+  <div class="sub">PWA 10.1｜高穩定版<br>滑動選語言，再開啟 ChatGPT Voice</div>
+  <span class="badge">12 種語言</span>
+</section>
 
-<section class="card"><h2>② 快速切換指令</h2><div id="quickCommand" class="quick">請先選擇語言</div></section>
+<section class="card">
+  <h2>① 請選擇口譯語言</h2>
 
-<section class="card"><h2>③ 高穩定版口譯規則</h2><div id="promptBox" class="prompt">請先選擇語言。</div><button class="btn secondary" onclick="copyPrompt()">複製完整口譯規則</button><p id="copyMsg" class="small"></p></section>
+  <div class="language-scroll-shell">
+    <button class="scroll-arrow" type="button" onclick="scrollLanguages(-1)" aria-label="往左捲動">‹</button>
 
-<section class="card"><h2>④ 開啟 ChatGPT</h2><button class="btn primary" onclick="launchChatGPT()">開始即時口譯</button>
-<p class="small">建議先在 ChatGPT App 的 Voice 設定中使用 Live，並開啟可用的 Start with Voice／背景對話相關選項。</p>
-<div class="notice">重要：一般 PWA／網頁目前無法保證強制直接指定 ChatGPT Live Voice。本版採較穩定方式：由使用者按下按鈕後喚起 ChatGPT，再由 ChatGPT App 自身的 Voice 設定接手。</div></section>
+    <div class="language-scroll" id="languageScroll" aria-label="語言選擇"></div>
+
+    <button class="scroll-arrow" type="button" onclick="scrollLanguages(1)" aria-label="往右捲動">›</button>
+  </div>
+
+  <div class="scroll-hint">可左右滑動，或按左右箭頭選擇語言</div>
+
+  <p class="small">
+    上次選擇：
+    <span id="lastChoice" class="last">尚未設定</span>
+  </p>
+</section>
+
+<section class="card">
+  <h2>② 快速切換指令</h2>
+  <div id="quickCommand" class="quick">請先選擇語言</div>
+</section>
+
+<section class="card">
+  <h2>③ 高穩定口譯規則</h2>
+
+  <button id="ruleToggleBtn" class="btn rule-toggle" type="button" onclick="toggleRules()">
+    <span class="icon">▼</span> 顯示完整規則
+  </button>
+
+  <div id="rulePanel" class="rule-panel">
+    <div id="promptBox" class="prompt">請先選擇語言。</div>
+  </div>
+
+  <div id="ruleStatus" class="rule-status">完整規則目前已隱藏</div>
+
+  <button class="btn secondary" type="button" onclick="copyPrompt()">
+    複製完整口譯規則
+  </button>
+
+  <p id="copyMsg" class="small"></p>
+</section>
+
+<section class="card">
+  <h2>④ 開啟 ChatGPT</h2>
+
+  <button class="btn primary" type="button" onclick="launchChatGPT()">
+    開始即時口譯
+  </button>
+
+  <p class="small">
+    建議先在 ChatGPT App 的 Voice 設定中使用 Live，
+    並開啟可用的 Start with Voice／背景對話相關選項。
+  </p>
+
+  <div class="notice">
+    重要：一般 PWA／網頁目前無法保證強制直接指定 ChatGPT Live Voice。
+    本版採較穩定方式：由使用者按下按鈕後喚起 ChatGPT，
+    再由 ChatGPT App 自身的 Voice 設定接手。
+  </div>
+</section>
+
 </div>
 
 <script>
-const languages=[
-{id:"en",label:"🇺🇸 英文",name:"英文",quick:"中文英文"},
-{id:"ja",label:"🇯🇵 日文",name:"日文",quick:"中文日文"},
-{id:"ko",label:"🇰🇷 韓文",name:"韓文",quick:"中文韓文"},
-{id:"id",label:"🇮🇩 印尼文",name:"印尼文",quick:"中文印尼文"},
-{id:"vi",label:"🇻🇳 越南文",name:"越南文",quick:"中文越南文"},
-{id:"th",label:"🇹🇭 泰文",name:"泰文",quick:"中文泰文"},
-{id:"es",label:"🇪🇸 西班牙文",name:"西班牙文",quick:"中文西班牙文"},
-{id:"fr",label:"🇫🇷 法文",name:"法文",quick:"中文法文"},
-{id:"de",label:"🇩🇪 德文",name:"德文",quick:"中文德文"},
-{id:"ms",label:"🇲🇾 馬來文",name:"馬來文",quick:"中文馬來文"},
-{id:"fil",label:"🇵🇭 菲律賓文",name:"菲律賓文",quick:"中文菲律賓文"},
-{id:"ar",label:"🇸🇦 阿拉伯文",name:"阿拉伯文",quick:"中文阿拉伯文"}];
+const languages = [
+  {id:"en",  label:"🇺🇸 英文",       name:"英文",       quick:"中文英文"},
+  {id:"ja",  label:"🇯🇵 日文",       name:"日文",       quick:"中文日文"},
+  {id:"ko",  label:"🇰🇷 韓文",       name:"韓文",       quick:"中文韓文"},
+  {id:"id",  label:"🇮🇩 印尼文",     name:"印尼文",     quick:"中文印尼文"},
+  {id:"vi",  label:"🇻🇳 越南文",     name:"越南文",     quick:"中文越南文"},
+  {id:"th",  label:"🇹🇭 泰文",       name:"泰文",       quick:"中文泰文"},
+  {id:"es",  label:"🇪🇸 西班牙文",   name:"西班牙文",   quick:"中文西班牙文"},
+  {id:"fr",  label:"🇫🇷 法文",       name:"法文",       quick:"中文法文"},
+  {id:"de",  label:"🇩🇪 德文",       name:"德文",       quick:"中文德文"},
+  {id:"ms",  label:"🇲🇾 馬來文",     name:"馬來文",     quick:"中文馬來文"},
+  {id:"fil", label:"🇵🇭 菲律賓文",   name:"菲律賓文",   quick:"中文菲律賓文"},
+  {id:"ar",  label:"🇸🇦 阿拉伯文",   name:"阿拉伯文",   quick:"中文阿拉伯文"}
+];
 
-let selected=null;
+let selected = null;
 
 function makePrompt(l){
 return `【多國語言雙向即時口譯｜高穩定版】
@@ -74,7 +349,8 @@ return `【多國語言雙向即時口譯｜高穩定版】
 5. 未指定語言時，不自行猜測，只簡短詢問：「請問要翻譯成哪一種語言？」
 
 【二、只翻譯，不回答】
-只輸出口譯結果；不回答原句內容；不解釋、不分析、不摘要、不評論；不重複原文；不加入翻譯提示標籤；不主動聊天；不補充不存在的資訊。
+只輸出口譯結果；不回答原句內容；不解釋、不分析、不摘要、不評論；
+不重複原文；不加入翻譯提示標籤；不主動聊天；不補充不存在的資訊。
 即使原句是問題，也只能翻譯問題，不得回答問題。
 
 【三、翻譯品質】
@@ -84,7 +360,9 @@ return `【多國語言雙向即時口譯｜高穩定版】
 不逐字死翻，以目標語言自然表達為準；完整保留原意，不任意增減資訊。
 
 【四、重要資訊絕對保留】
-不得自行修改、簡化或省略：人名、公司名稱、機關名稱、職稱、地址、電話、日期、時間、數字、金額、百分比、產品名稱、專案名稱、法規名稱、專有名詞、型號、編號、案號。
+不得自行修改、簡化或省略：人名、公司名稱、機關名稱、職稱、地址、電話、
+日期、時間、數字、金額、百分比、產品名稱、專案名稱、法規名稱、專有名詞、
+型號、編號、案號。
 若專有名詞沒有可靠對應翻譯，優先保留原文，不自行創造名稱。
 
 【五、數字與日期】
@@ -100,7 +378,8 @@ return `【多國語言雙向即時口譯｜高穩定版】
 
 【七、多人對話】
 優先判斷每位說話者實際使用的語言；不因背景聲音自行翻譯。
-若多人同時說話而無法辨識，只說：「不好意思，剛才同時有多人說話，請再說一次。」
+若多人同時說話而無法辨識，只說：
+「不好意思，剛才同時有多人說話，請再說一次。」
 
 【八、即時口譯模式】
 不要等待「翻譯」或「請翻譯」。
@@ -109,7 +388,8 @@ return `【多國語言雙向即時口譯｜高穩定版】
 
 【九、語氣】
 以專業、自然、禮貌、簡潔為原則。
-特別適用於政府機關接待、國際訪賓、企業參訪、商務會議、正式簡報、招商洽談、餐會交流、園區導覽。
+特別適用於政府機關接待、國際訪賓、企業參訪、商務會議、正式簡報、
+招商洽談、餐會交流、園區導覽。
 
 【十、快速切換】
 目前語言指令：${l.quick}
@@ -129,39 +409,131 @@ return `【多國語言雙向即時口譯｜高穩定版】
 等待我說話。`;
 }
 
-function render(){
-const g=document.getElementById("languageGrid");g.innerHTML="";
-languages.forEach(l=>{const b=document.createElement("button");b.className="lang"+(selected?.id===l.id?" active":"");b.textContent=l.label;b.onclick=()=>chooseLanguage(l.id);g.appendChild(b)});
-const last=localStorage.getItem("pwa10LastLanguage");
-if(last){const i=languages.find(x=>x.id===last);if(i)document.getElementById("lastChoice").textContent=i.label}
+function renderLanguages(){
+  const box = document.getElementById("languageScroll");
+  box.innerHTML = "";
+
+  languages.forEach(l => {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "lang" + (selected?.id === l.id ? " active" : "");
+    b.textContent = l.label;
+    b.dataset.langId = l.id;
+    b.onclick = () => chooseLanguage(l.id);
+    box.appendChild(b);
+  });
 }
 
 function chooseLanguage(id){
-selected=languages.find(x=>x.id===id);
-localStorage.setItem("pwa10LastLanguage",id);
-document.getElementById("promptBox").textContent=makePrompt(selected);
-document.getElementById("quickCommand").textContent=selected.quick;
-document.getElementById("lastChoice").textContent=selected.label;
-render();
+  selected = languages.find(x => x.id === id);
+  if(!selected) return;
+
+  localStorage.setItem("pwa101LastLanguage", id);
+
+  document.getElementById("lastChoice").textContent = selected.label;
+  document.getElementById("quickCommand").textContent = selected.quick;
+  document.getElementById("promptBox").textContent = makePrompt(selected);
+
+  renderLanguages();
+
+  requestAnimationFrame(() => {
+    const active = document.querySelector('.lang.active');
+    if(active){
+      active.scrollIntoView({
+        behavior:"smooth",
+        inline:"center",
+        block:"nearest"
+      });
+    }
+  });
+}
+
+function scrollLanguages(direction){
+  const box = document.getElementById("languageScroll");
+  const amount = Math.max(180, box.clientWidth * 0.72);
+  box.scrollBy({
+    left: direction * amount,
+    behavior:"smooth"
+  });
+}
+
+function toggleRules(){
+  const panel = document.getElementById("rulePanel");
+  const btn = document.getElementById("ruleToggleBtn");
+  const status = document.getElementById("ruleStatus");
+
+  const isOpen = panel.classList.toggle("show");
+
+  if(isOpen){
+    btn.innerHTML = '<span class="icon">▲</span> 隱藏完整規則';
+    status.textContent = "完整規則目前已顯示";
+    localStorage.setItem("pwa101RulesVisible","1");
+  }else{
+    btn.innerHTML = '<span class="icon">▼</span> 顯示完整規則';
+    status.textContent = "完整規則目前已隱藏";
+    localStorage.setItem("pwa101RulesVisible","0");
+  }
+}
+
+function restoreRuleVisibility(){
+  const visible = localStorage.getItem("pwa101RulesVisible") === "1";
+  if(!visible) return;
+
+  const panel = document.getElementById("rulePanel");
+  const btn = document.getElementById("ruleToggleBtn");
+  const status = document.getElementById("ruleStatus");
+
+  panel.classList.add("show");
+  btn.innerHTML = '<span class="icon">▲</span> 隱藏完整規則';
+  status.textContent = "完整規則目前已顯示";
 }
 
 async function copyPrompt(){
-if(!selected){document.getElementById("copyMsg").textContent="請先選擇語言。";return}
-try{await navigator.clipboard.writeText(makePrompt(selected));document.getElementById("copyMsg").textContent="✅ 已複製完整高穩定版口譯規則。"}
-catch(e){document.getElementById("copyMsg").textContent="無法自動複製，請長按文字手動複製。"}
+  if(!selected){
+    document.getElementById("copyMsg").textContent = "請先選擇語言。";
+    return;
+  }
+
+  try{
+    await navigator.clipboard.writeText(makePrompt(selected));
+    document.getElementById("copyMsg").textContent =
+      "✅ 已複製完整高穩定版口譯規則。";
+  }catch(e){
+    document.getElementById("copyMsg").textContent =
+      "無法自動複製，請先顯示規則後長按文字手動複製。";
+  }
 }
 
 function launchChatGPT(){
-const fallback=setTimeout(()=>{window.location.href="https://chatgpt.com/"},1300);
-try{window.location.href="chatgpt://"}catch(e){clearTimeout(fallback);window.location.href="https://chatgpt.com/"}
+  const fallback = setTimeout(() => {
+    window.location.href = "https://chatgpt.com/";
+  }, 1300);
+
+  try{
+    window.location.href = "chatgpt://";
+  }catch(e){
+    clearTimeout(fallback);
+    window.location.href = "https://chatgpt.com/";
+  }
 }
 
-window.addEventListener("load",()=>{
-const last=localStorage.getItem("pwa10LastLanguage");
-if(last&&languages.some(x=>x.id===last)){selected=languages.find(x=>x.id===last);document.getElementById("promptBox").textContent=makePrompt(selected);document.getElementById("quickCommand").textContent=selected.quick}
-render();
-if("serviceWorker" in navigator){navigator.serviceWorker.register("./service-worker.js").catch(()=>{})}
+window.addEventListener("load", () => {
+  renderLanguages();
+  restoreRuleVisibility();
+
+  const last = localStorage.getItem("pwa101LastLanguage");
+
+  if(last && languages.some(x => x.id === last)){
+    chooseLanguage(last);
+  }
+
+  if("serviceWorker" in navigator){
+    navigator.serviceWorker
+      .register("./service-worker.js")
+      .catch(() => {});
+  }
 });
 </script>
+
 </body>
 </html>
