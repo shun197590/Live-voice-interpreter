@@ -1,11 +1,12 @@
 {
-  "name": "雙向即時口譯",
+  "name": "多國語言雙向即時口譯 PWA 10",
   "short_name": "即時口譯",
-  "description": "繁體中文與 9 種語言雙向即時口譯啟動器",
+  "description": "繁體中文與 12 種語言雙向即時口譯啟動器｜高穩定版",
   "lang": "zh-Hant",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
+  "orientation": "portrait",
   "background_color": "#f0fdfa",
   "theme_color": "#0f766e",
   "icons": [
