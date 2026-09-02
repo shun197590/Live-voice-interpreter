@@ -183,23 +183,13 @@ h2{
 .btn:active{
   transform:scale(.98);
 }
-.btn-voice{
+.primary-voice{
   color:#fff;
-  background:linear-gradient(145deg,#0284c7,#0ea5e9);
-  box-shadow:0 6px 20px rgba(14,165,233,.3);
-  font-size:18px;
-  padding:16px;
-}
-.primary-lg{
-  color:#fff;
-  background:linear-gradient(145deg,#0d9488,#14b8a6);
-  box-shadow:0 6px 20px rgba(13,148,136,.3);
-  font-size:18px;
-  padding:16px;
-}
-.primary{
-  color:#fff;
-  background:linear-gradient(145deg,var(--p),var(--p2));
+  background:linear-gradient(135deg, #0d9488 0%, #0284c7 100%);
+  box-shadow:0 8px 24px rgba(2,132,199,.32);
+  font-size:19px;
+  padding:18px;
+  letter-spacing:.3px;
 }
 .secondary{
   color:var(--ink);
@@ -246,7 +236,7 @@ h2{
   color:var(--muted);
 }
 .notice{
-  margin-top:12px;
+  margin-top:14px;
   padding:14px;
   border-radius:14px;
   background:#fff7ed;
@@ -274,6 +264,7 @@ h2{
   .card{padding:16px}
   .scroll-arrow{flex-basis:38px;width:38px}
   .lang{min-width:126px;padding:12px 16px}
+  .primary-voice{font-size:17px;padding:16px;}
 }
 </style>
 </head>
@@ -285,7 +276,7 @@ h2{
   <div class="logo">譯</div>
   <h1>多國語言雙向即時口譯</h1>
   <div class="sub">PWA 11.0｜企業旗艦版<br>選擇領域與語言，一鍵複製並啟動口譯</div>
-  <span class="badge">12 種語言 ✕ 專業情境最佳化</span>
+  <span class="badge">12 種語言 ✕ 語音直達優化</span>
 </section>
 
 <!-- ① 選擇語言與專業領域 -->
@@ -314,30 +305,24 @@ h2{
   </p>
 </section>
 
-<!-- ② 一鍵啟動 ChatGPT / Voice -->
+<!-- ② 一鍵複製 + 直達 Voice -->
 <section class="card">
-  <h2>② 啟動口譯對話</h2>
+  <h2>② 啟動口譯</h2>
 
-  <!-- 模式 A：複製並開文字對話（用於貼上 Prompt 讓 AI 成為口譯員） -->
-  <button class="btn primary-lg" type="button" onclick="copyAndLaunchChat()">
-    📋 複製 Prompt ＋ 開啟 ChatGPT 對話
-  </button>
-
-  <!-- 模式 B：直接喚起 ChatGPT Voice 語音介面 -->
-  <button class="btn btn-voice" type="button" onclick="launchDirectVoice()">
-    🎙️ 一鍵直接喚起 Voice 語音模式
+  <button class="btn primary-voice" type="button" onclick="copyAndLaunchVoice()">
+    🎙️ 複製 Prompt ＋ 一鍵直達 Voice 語音模式
   </button>
   
   <div id="toastMsg" class="toast-msg"></div>
 
   <div class="notice">
-    💡 <strong>操作說明：</strong><br>
-    • <strong>新開啟口譯時（推薦）：</strong>點擊綠色按鈕複製 Prompt，進入 ChatGPT 貼上並發送後，點右下角<strong>耳機圖示</strong>開始口譯。<br>
-    • <strong>延續既有口譯 / 已設定角色時：</strong>點擊藍色按鈕可<strong>一鍵直達 Voice</strong> 語音模式。
+    💡 <strong>使用提示：</strong><br>
+    • 點擊後將<strong>自動複製 Prompt</strong> 並<strong>直達 ChatGPT Voice 介面</strong>。<br>
+    • 進入 Voice 後即可直接開口對話；若需在文字對話中指定角色規則，隨時「長按貼上」剛複製的 Prompt 即可！
   </div>
 </section>
 
-<!-- ③ 快速切換指令與規則備查 -->
+<!-- ③ 快速指令與完整規則備查 -->
 <section class="card">
   <h2>③ 快速指令與完整規則備查</h2>
   <div id="quickCommand" class="quick" style="margin-bottom:12px;">請先選擇語言</div>
@@ -514,7 +499,7 @@ function restoreRuleVisibility(){
   status.textContent = "完整規則目前已顯示";
 }
 
-// 穩健喚起 App 的函式，避免背景跳轉衝突
+// 穩健喚起 App 的深層連結函式
 function openDeepLink(schemeUrl, fallbackUrl){
   let hasNavigatedAway = false;
 
@@ -531,10 +516,10 @@ function openDeepLink(schemeUrl, fallbackUrl){
   window.addEventListener("pagehide", cleanup);
   document.addEventListener("visibilitychange", onVisibilityChange);
 
-  // 嘗試透過 Deep Link 開啟 App
+  // 嘗試透過 Deep Link 直達語音模式
   window.location.href = schemeUrl;
 
-  // 若一段時間仍留在當前畫面，則導向網頁備援
+  // 備援機制：若 App 未被喚起仍停留在本頁，自動平滑導向 ChatGPT 網頁版
   setTimeout(() => {
     if (!hasNavigatedAway && !document.hidden) {
       window.location.href = fallbackUrl;
@@ -542,8 +527,8 @@ function openDeepLink(schemeUrl, fallbackUrl){
   }, 2200);
 }
 
-// 模式 A：複製 Prompt 並啟動 ChatGPT
-async function copyAndLaunchChat(){
+// 核心整合功能：複製 Prompt + 直達 Voice 語音模式
+async function copyAndLaunchVoice(){
   if(!selected){
     showToast("⚠️ 請先選擇語言！");
     return;
@@ -553,39 +538,19 @@ async function copyAndLaunchChat(){
     const domainVal = document.getElementById("domainSelect").value;
     const promptText = makePrompt(selected, domainVal);
 
+    // 1. 複製 Prompt 到剪貼簿
     await navigator.clipboard.writeText(promptText);
 
     if(navigator.vibrate) navigator.vibrate([40, 30, 40]);
-    showToast("✅ 已複製 Prompt！即將開啟 App，貼上後按發送即可開啟耳機對話。");
-
-    setTimeout(() => {
-      openDeepLink("chatgpt://", "https://chatgpt.com/");
-    }, 600);
-
+    showToast("✅ 已複製 Prompt！正在直達 Voice 語音模式...");
   }catch(e){
-    showToast("❌ 複製失敗，請手動複製下方 Prompt。");
-  }
-}
-
-// 模式 B：直接以 URL Scheme 喚起 Voice 語音模式
-async function launchDirectVoice(){
-  if(!selected){
-    showToast("⚠️ 請先選擇語言！");
-    return;
+    showToast("🎙️ 正在直達 Voice 語音模式...");
   }
 
-  try{
-    const domainVal = document.getElementById("domainSelect").value;
-    await navigator.clipboard.writeText(makePrompt(selected, domainVal));
-    if(navigator.vibrate) navigator.vibrate(60);
-    showToast("🎙️ 正在直達 Voice 語音模式（Prompt 已備份至剪貼簿）...");
-  }catch(e){
-    // 忽略剪貼簿錯誤，直接跳轉
-  }
-
+  // 2. 喚起 ChatGPT 語音模式
   setTimeout(() => {
     openDeepLink("chatgpt://voice", "https://chatgpt.com/");
-  }, 300);
+  }, 400);
 }
 
 async function copyPromptOnly(){
@@ -608,14 +573,13 @@ function showToast(msg){
   el.textContent = msg;
   setTimeout(() => {
     if(el.textContent === msg) el.textContent = "";
-  }, 4500);
+  }, 4000);
 }
 
 window.addEventListener("load", () => {
   const savedDomain = localStorage.getItem("pwa11Domain");
   if(savedDomain) document.getElementById("domainSelect").value = savedDomain;
   
-  // 清理不再使用的舊版術語快取
   localStorage.removeItem("pwa11Glossary");
 
   renderLanguages();
