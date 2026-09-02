@@ -245,12 +245,13 @@ h2{
 }
 .notice{
   margin-top:12px;
-  padding:12px 14px;
+  padding:14px;
   border-radius:14px;
   background:#fff7ed;
   color:#9a3412;
-  line-height:1.65;
+  line-height:1.7;
   font-size:14px;
+  border:1px solid #ffedd5;
 }
 .last{
   font-weight:900;
@@ -260,8 +261,9 @@ h2{
   text-align:center;
   font-weight:800;
   color:#0d9488;
-  margin-top:8px;
-  min-height:20px;
+  margin-top:10px;
+  min-height:22px;
+  font-size:14px;
 }
 
 @media(max-width:520px){
@@ -280,7 +282,7 @@ h2{
 <section class="hero">
   <div class="logo">譯</div>
   <h1>多國語言雙向即時口譯</h1>
-  <div class="sub">PWA 11.0｜企業旗艦進化版<br>選擇領域與語言，一鍵複製並啟動口譯</div>
+  <div class="sub">PWA 11.0｜企業旗艦版<br>選擇領域與語言，一鍵複製並啟動口譯</div>
   <span class="badge">12 種語言 ✕ 專業術語注入</span>
 </section>
 
@@ -324,7 +326,10 @@ h2{
   <div id="toastMsg" class="toast-msg"></div>
 
   <div class="notice">
-    💡 <strong>使用提示：</strong>點擊按鈕後，口譯規則已複製到剪貼簿，並自動開啟 ChatGPT App。請直接將 Prompt 貼入 ChatGPT 對話框或點擊右下角 Voice 語音按鈕即可開啟！
+    💡 <strong>開啟 ChatGPT 後的操作步驟：</strong><br>
+    1. 在對話框長按<strong>「貼上」</strong>剛複製的 Prompt 並發送。<br>
+    2. 點擊輸入框右下角的<strong>「耳機 / 聲波圖示 🎧」</strong>開啟 Voice 語音模式。<br>
+    3. 即可直接開始進行雙向即時口譯！
   </div>
 </section>
 
@@ -445,7 +450,6 @@ function updatePromptOptions(){
   const glossaryText = document.getElementById("customGlossary").value;
   document.getElementById("promptBox").textContent = makePrompt(selected, domainVal, glossaryText);
 
-  // 儲存選項
   localStorage.setItem("pwa11Domain", domainVal);
   localStorage.setItem("pwa11Glossary", glossaryText);
 }
@@ -529,11 +533,11 @@ async function copyAndLaunch(){
     await navigator.clipboard.writeText(promptText);
 
     if(navigator.vibrate) navigator.vibrate([40, 30, 40]);
-    showToast("✅ 已複製 Prompt！正在喚起 ChatGPT...");
+    showToast("✅ 已複製 Prompt！進入 ChatGPT 後請貼上並點擊右下角耳機圖示。");
 
     setTimeout(() => {
       launchChatGPT();
-    }, 400);
+    }, 800);
 
   }catch(e){
     showToast("❌ 複製失敗，請手動複製 Prompt。");
@@ -550,7 +554,7 @@ async function copyPromptOnly(){
     const glossaryText = document.getElementById("customGlossary").value;
     await navigator.clipboard.writeText(makePrompt(selected, domainVal, glossaryText));
     if(navigator.vibrate) navigator.vibrate(50);
-    showToast("✅ 已複製完整高穩定版口譯規則。");
+    showToast("✅ 已複製完整口譯規則。");
   }catch(e){
     showToast("❌ 複製失敗，請顯示規則後長按手動複製。");
   }
@@ -578,7 +582,6 @@ function launchChatGPT(){
 }
 
 window.addEventListener("load", () => {
-  // 還原自訂設定
   const savedDomain = localStorage.getItem("pwa11Domain");
   if(savedDomain) document.getElementById("domainSelect").value = savedDomain;
   
@@ -588,7 +591,6 @@ window.addEventListener("load", () => {
   renderLanguages();
   restoreRuleVisibility();
 
-  // 支援 URL 參數 (例如 ?lang=ja)
   const urlParams = new URLSearchParams(window.location.search);
   const langParam = urlParams.get('lang');
   const last = langParam || localStorage.getItem("pwa101LastLanguage") || "en";
