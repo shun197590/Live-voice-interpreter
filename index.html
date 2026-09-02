@@ -185,7 +185,7 @@ h2{
 }
 .primary-voice{
   color:#fff;
-  background:linear-gradient(135deg, #0d9488 0%, #0284c7 100%);
+  background:linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
   box-shadow:0 8px 24px rgba(2,132,199,.32);
   font-size:19px;
   padding:18px;
@@ -275,24 +275,24 @@ h2{
 <section class="hero">
   <div class="logo">譯</div>
   <h1>多國語言雙向即時口譯</h1>
-  <div class="sub">PWA 11.0｜企業旗艦版<br>選擇領域與語言，一鍵複製並啟動口譯</div>
-  <span class="badge">12 種語言 ✕ 語音直達優化</span>
+  <div class="sub">PWA 11.0｜企業旗艦版<br>點選語言自動複製 Prompt，一鍵開啟語音</div>
+  <span class="badge">12 種語言 ✕ 自動複製 ✕ Voice 直達</span>
 </section>
 
-<!-- ① 選擇語言與專業領域 -->
+<!-- ① 選擇語言與專業領域（點選即自動複製） -->
 <section class="card">
-  <h2>① 選擇口譯語言與情境</h2>
+  <h2>① 選擇口譯語言（自動複製 Prompt）</h2>
 
   <div class="language-scroll-shell">
     <button class="scroll-arrow" type="button" onclick="scrollLanguages(-1)" aria-label="往左捲動">‹</button>
     <div class="language-scroll" id="languageScroll" aria-label="語言選擇"></div>
     <button class="scroll-arrow" type="button" onclick="scrollLanguages(1)" aria-label="往右捲動">›</button>
   </div>
-  <div class="scroll-hint">可左右滑動選擇語言</div>
+  <div class="scroll-hint">可左右滑動選擇語言（點選後立即複製）</div>
 
   <div class="setting-group" style="margin-top:16px;">
     <label class="label-title" for="domainSelect">特定專業領域語氣：</label>
-    <select id="domainSelect" class="select-input" onchange="updatePromptOptions()">
+    <select id="domainSelect" class="select-input" onchange="onDomainChange()">
       <option value="general">🏢 正式商務與一般交流（預設）</option>
       <option value="gov">🏛️ 政府機關 / 公務接待 / 參訪導覽</option>
       <option value="tech">🔬 高科技 / 半導體 / AI 與工程</option>
@@ -305,20 +305,20 @@ h2{
   </p>
 </section>
 
-<!-- ② 一鍵複製 + 直達 Voice -->
+<!-- ② 開啟 Voice 語音模式 -->
 <section class="card">
   <h2>② 啟動口譯</h2>
 
-  <button class="btn primary-voice" type="button" onclick="copyAndLaunchVoice()">
-    🎙️ 複製 Prompt ＋ 一鍵直達 Voice 語音模式
+  <button class="btn primary-voice" type="button" onclick="launchVoice()">
+    🎙️ 開啟 Voice 語音模式
   </button>
   
   <div id="toastMsg" class="toast-msg"></div>
 
   <div class="notice">
-    💡 <strong>使用提示：</strong><br>
-    • 點擊後將<strong>自動複製 Prompt</strong> 並<strong>直達 ChatGPT Voice 介面</strong>。<br>
-    • 進入 Voice 後即可直接開口對話；若需在文字對話中指定角色規則，隨時「長按貼上」剛複製的 Prompt 即可！
+    💡 <strong>極簡使用兩步驟：</strong><br>
+    1. 在上方<strong>點選目標語言</strong>，系統會<strong>自動複製 Prompt</strong> 到剪貼簿。<br>
+    2. 點擊藍色<strong>「開啟 Voice 語音模式」</strong>按鈕直達 ChatGPT 開始對話！
   </div>
 </section>
 
@@ -337,8 +337,8 @@ h2{
 
   <div id="ruleStatus" class="rule-status">完整規則目前已隱藏</div>
 
-  <button class="btn secondary" type="button" onclick="copyPromptOnly()">
-    僅複製口譯規則 (不開啟 App)
+  <button class="btn secondary" type="button" onclick="copyPromptManually()">
+    手動重新複製口譯規則
   </button>
 </section>
 
@@ -423,19 +423,20 @@ function renderLanguages(){
     b.className = "lang" + (selected?.id === l.id ? " active" : "");
     b.textContent = l.label;
     b.dataset.langId = l.id;
-    b.onclick = () => chooseLanguage(l.id);
+    b.onclick = () => chooseLanguage(l.id, true);
     box.appendChild(b);
   });
 }
 
-function updatePromptOptions(){
+function updatePromptDisplay(){
   if(!selected) return;
   const domainVal = document.getElementById("domainSelect").value;
   document.getElementById("promptBox").textContent = makePrompt(selected, domainVal);
   localStorage.setItem("pwa11Domain", domainVal);
 }
 
-function chooseLanguage(id){
+// 選擇語言：更新狀態 + 自動複製 Prompt
+async function chooseLanguage(id, triggerCopy = false){
   selected = languages.find(x => x.id === id);
   if(!selected) return;
 
@@ -444,8 +445,12 @@ function chooseLanguage(id){
   document.getElementById("lastChoice").textContent = selected.label;
   document.getElementById("quickCommand").textContent = selected.quick;
   
-  updatePromptOptions();
+  updatePromptDisplay();
   renderLanguages();
+
+  if(triggerCopy){
+    await autoCopyPrompt(`✅ 已選擇【${selected.name}】，Prompt 已自動複製！`);
+  }
 
   requestAnimationFrame(() => {
     const active = document.querySelector('.lang.active');
@@ -457,6 +462,28 @@ function chooseLanguage(id){
       });
     }
   });
+}
+
+// 領域變更時同步更新並自動複製
+async function onDomainChange(){
+  updatePromptDisplay();
+  if(selected){
+    await autoCopyPrompt(`✅ 領域語氣已更新，Prompt 已自動複製！`);
+  }
+}
+
+// 自動複製核心函式
+async function autoCopyPrompt(successMsg){
+  if(!selected) return;
+  try{
+    const domainVal = document.getElementById("domainSelect").value;
+    const promptText = makePrompt(selected, domainVal);
+    await navigator.clipboard.writeText(promptText);
+    if(navigator.vibrate) navigator.vibrate([30, 20, 30]);
+    showToast(successMsg || "✅ Prompt 已自動複製到剪貼簿！");
+  }catch(e){
+    showToast("⚠️ 自動複製受瀏覽器限制，請點下方「手動重新複製」。");
+  }
 }
 
 function scrollLanguages(direction){
@@ -499,7 +526,7 @@ function restoreRuleVisibility(){
   status.textContent = "完整規則目前已顯示";
 }
 
-// 穩健喚起 App 的深層連結函式
+// 穩健喚起 App，避免背景定時器覆蓋
 function openDeepLink(schemeUrl, fallbackUrl){
   let hasNavigatedAway = false;
 
@@ -516,10 +543,10 @@ function openDeepLink(schemeUrl, fallbackUrl){
   window.addEventListener("pagehide", cleanup);
   document.addEventListener("visibilitychange", onVisibilityChange);
 
-  // 嘗試透過 Deep Link 直達語音模式
+  // 喚起 Voice 語音介面
   window.location.href = schemeUrl;
 
-  // 備援機制：若 App 未被喚起仍停留在本頁，自動平滑導向 ChatGPT 網頁版
+  // 備援重導：若 2.2 秒內尚未切換離開頁面，則導向網頁版
   setTimeout(() => {
     if (!hasNavigatedAway && !document.hidden) {
       window.location.href = fallbackUrl;
@@ -527,33 +554,18 @@ function openDeepLink(schemeUrl, fallbackUrl){
   }, 2200);
 }
 
-// 核心整合功能：複製 Prompt + 直達 Voice 語音模式
-async function copyAndLaunchVoice(){
+// 點擊按鈕：開啟 Voice 語音模式
+function launchVoice(){
   if(!selected){
-    showToast("⚠️ 請先選擇語言！");
+    showToast("⚠️ 請先在上方選擇一種語言！");
     return;
   }
-
-  try{
-    const domainVal = document.getElementById("domainSelect").value;
-    const promptText = makePrompt(selected, domainVal);
-
-    // 1. 複製 Prompt 到剪貼簿
-    await navigator.clipboard.writeText(promptText);
-
-    if(navigator.vibrate) navigator.vibrate([40, 30, 40]);
-    showToast("✅ 已複製 Prompt！正在直達 Voice 語音模式...");
-  }catch(e){
-    showToast("🎙️ 正在直達 Voice 語音模式...");
-  }
-
-  // 2. 喚起 ChatGPT 語音模式
-  setTimeout(() => {
-    openDeepLink("chatgpt://voice", "https://chatgpt.com/");
-  }, 400);
+  showToast("🎙️ 正在喚起 Voice 語音模式...");
+  openDeepLink("chatgpt://voice", "https://chatgpt.com/");
 }
 
-async function copyPromptOnly(){
+// 手動複製備用
+async function copyPromptManually(){
   if(!selected){
     showToast("⚠️ 請先選擇語言。");
     return;
@@ -561,10 +573,10 @@ async function copyPromptOnly(){
   try{
     const domainVal = document.getElementById("domainSelect").value;
     await navigator.clipboard.writeText(makePrompt(selected, domainVal));
-    if(navigator.vibrate) navigator.vibrate(50);
-    showToast("✅ 已複製完整口譯規則。");
+    if(navigator.vibrate) navigator.vibrate(40);
+    showToast("✅ 已成功手動複製完整 Prompt！");
   }catch(e){
-    showToast("❌ 複製失敗，請展開規則後手動複製。");
+    showToast("❌ 複製失敗，請展開規則後手動框選複製。");
   }
 }
 
@@ -573,13 +585,13 @@ function showToast(msg){
   el.textContent = msg;
   setTimeout(() => {
     if(el.textContent === msg) el.textContent = "";
-  }, 4000);
+  }, 3800);
 }
 
 window.addEventListener("load", () => {
   const savedDomain = localStorage.getItem("pwa11Domain");
   if(savedDomain) document.getElementById("domainSelect").value = savedDomain;
-  
+
   localStorage.removeItem("pwa11Glossary");
 
   renderLanguages();
@@ -590,7 +602,8 @@ window.addEventListener("load", () => {
   const last = langParam || localStorage.getItem("pwa101LastLanguage") || "en";
 
   if(languages.some(x => x.id === last)){
-    chooseLanguage(last);
+    // 初次載入僅初始化選取，不跳出自動複製彈窗避免干擾
+    chooseLanguage(last, false);
   }
 
   if("serviceWorker" in navigator){
