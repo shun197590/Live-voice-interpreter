@@ -18,7 +18,7 @@
   --orange:#ea580c;      /* 暖橘重點色 */
   --amber:#f59e0b;       /* 金黃 */
   --ink:#1e293b;         /* 內文主要深色 */
-  --muted:#526478;       /* 說明次要文字（稍微加深以保證可讀性） */
+  --muted:#526478;       /* 說明次要文字 */
   --line:#ffedd5;        /* 極淡柔和杏橙分隔線 */
   --card-bg:#ffffff;     /* 卡片純白底 */
   --soft-grad-1:#fff8f2; /* 柔和淡橘米白 */
@@ -29,11 +29,10 @@ html{scroll-behavior:smooth}
 body{
   margin:0;
   min-height:100vh;
-  /* 稍淡溫潤的漸層背景，清爽舒適 */
   background:linear-gradient(175deg, var(--soft-grad-1) 0%, var(--soft-grad-2) 45%, #ffffff 100%);
   font-family:"PingFang TC","Noto Sans TC","Microsoft JhengHei",
   -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  font-size:18.5px; /* 全局基礎字體加大 */
+  font-size:18.5px;
   line-height:1.7;
   color:var(--ink);
   -webkit-font-smoothing:antialiased;
@@ -64,15 +63,15 @@ body{
 }
 h1{
   margin:16px 0 6px;
-  font-size:31px; /* 標題加大 */
+  font-size:31px;
   font-weight:850;
   line-height:1.35;
   color:var(--p);
 }
-.sub,.small{
+.sub{
   color:var(--muted);
   line-height:1.75;
-  font-size:17px; /* 副標題加大 */
+  font-size:17px;
 }
 .badge{
   display:inline-block;
@@ -82,7 +81,7 @@ h1{
   background:#fff4e6;
   color:#c2410c;
   border:1px solid #ffd8a8;
-  font-size:15px; /* 標籤加大 */
+  font-size:15px;
   font-weight:800;
 }
 .card{
@@ -99,7 +98,7 @@ h1{
 }
 h2{
   margin:0 0 16px;
-  font-size:22px; /* 區塊標題加大 */
+  font-size:22px;
   font-weight:800;
   line-height:1.4;
   color:var(--p);
@@ -120,7 +119,7 @@ h2{
   border-radius:16px;
   background:#fff;
   color:var(--orange);
-  font-size:26px; /* 捲動箭頭加大 */
+  font-size:26px;
   font-weight:900;
   cursor:pointer;
   box-shadow:0 3px 10px rgba(234,88,12,.06);
@@ -147,7 +146,7 @@ h2{
   color:#334155;
   border-radius:999px;
   padding:14px 20px;
-  font-size:18px; /* 語言字體加大 */
+  font-size:18px;
   font-weight:800;
   text-align:center;
   cursor:pointer;
@@ -166,24 +165,17 @@ h2{
 .scroll-hint{
   margin:8px 0 0;
   color:var(--muted);
-  font-size:15px; /* 提示字體加大 */
+  font-size:15px;
   text-align:center;
 }
 
 .setting-group{margin-top:12px;}
-.label-title{
-  font-weight:800;
-  font-size:16.5px; /* 表單標籤加大 */
-  margin-bottom:8px;
-  display:block;
-  color:var(--ink);
-}
 .select-input{
   width:100%;
   padding:14px;
   border-radius:15px;
   border:1.5px solid #ffd8a8;
-  font-size:17px; /* 下拉選單加大 */
+  font-size:17px;
   color:var(--ink);
   background:#fffbf7;
   margin-bottom:10px;
@@ -196,7 +188,7 @@ h2{
   border-radius:20px;
   padding:17px 18px;
   margin-top:12px;
-  font-size:19px; /* 按鈕文字加大 */
+  font-size:19px;
   font-weight:850;
   letter-spacing:.3px;
   cursor:pointer;
@@ -208,12 +200,11 @@ h2{
 }
 .btn:active{transform:scale(.98)}
 
-/* 主按鈕：深藍核心質感 */
 .btn-primary{
   color:#fff;
   background:linear-gradient(135deg, #0f2b5c 0%, #1e3a8a 100%);
   box-shadow:0 8px 22px rgba(15,43,92,.22);
-  font-size:20px; /* 主按鈕特大化 */
+  font-size:20px;
 }
 .btn-shortcut{
   color:#9a3412;
@@ -238,7 +229,7 @@ h2{
   color:#9a3412;
   font-weight:850;
   text-align:center;
-  font-size:21px; /* 快速指令加大 */
+  font-size:21px;
   letter-spacing:.4px;
 }
 .prompt{
@@ -248,7 +239,7 @@ h2{
   border-radius:18px;
   padding:18px;
   line-height:1.85;
-  font-size:16px; /* 規則內容加大 */
+  font-size:16px;
   color:#334155;
   max-height:320px;
   overflow:auto;
@@ -268,7 +259,7 @@ h2{
   background:#fff9f2;
   color:#9a3412;
   line-height:1.85;
-  font-size:15.5px; /* 提示字體加大 */
+  font-size:15.5px;
   border:1px solid #ffd8a8;
 }
 .last{font-weight:900;color:#c2410c;}
@@ -278,7 +269,7 @@ h2{
   color:#ea580c;
   margin-top:12px;
   min-height:24px;
-  font-size:16.5px; /* Toast 提示加大 */
+  font-size:16.5px;
 }
 
 /* 折疊區塊 */
@@ -290,7 +281,7 @@ h2{
 .disclosure summary{
   cursor:pointer;
   font-weight:800;
-  font-size:16px; /* 折疊標題加大 */
+  font-size:16px;
   color:#ea580c;
   list-style:none;
   display:flex;
@@ -313,7 +304,7 @@ h2{
   border-radius:18px;
   background:#fffbf7;
   border:1px solid #ffe8cc;
-  font-size:16.5px; /* 狀態欄加大 */
+  font-size:16.5px;
   color:var(--muted);
   text-align:center;
 }
