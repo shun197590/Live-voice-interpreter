@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0f766e">
+<meta name="theme-color" content="#0e7d72">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="雙向即時口譯">
 <link rel="manifest" href="./manifest.json">
@@ -12,23 +12,29 @@
 
 <style>
 :root{
-  --p:#0f766e;
-  --p2:#14b8a6;
-  --ink:#0f172a;
-  --muted:#64748b;
-  --line:#cbd5e1;
-  --soft:#ecfdf5;
-  --cyan:#ecfeff;
+  --p:#0e7d72;
+  --p2:#2bab9e;
+  --ink:#1c2b2a;
+  --muted:#4b615e;
+  --line:#dbe8e4;
+  --soft:#eef8f5;
+  --cyan:#eaf5f3;
+  --bg1:#f6faf9;
+  --bg2:#eef7f4;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{
   margin:0;
   min-height:100vh;
-  background:linear-gradient(160deg,#ecfeff,#f0fdfa);
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC",
-  "PingFang TC","Microsoft JhengHei",sans-serif;
+  background:linear-gradient(160deg,var(--bg1),var(--bg2));
+  font-family:"PingFang TC","Noto Sans TC","Microsoft JhengHei",
+  -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-size:17px;
+  line-height:1.65;
   color:var(--ink);
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
 }
 .wrap{
   max-width:780px;
@@ -50,38 +56,48 @@ body{
   color:#fff;
   font-size:34px;
   font-weight:900;
-  box-shadow:0 10px 28px rgba(15,118,110,.20);
+  box-shadow:0 10px 28px rgba(14,125,114,.20);
 }
 h1{
-  margin:14px 0 6px;
-  font-size:29px;
-  line-height:1.25;
+  margin:14px 0 8px;
+  font-size:28px;
+  font-weight:800;
+  line-height:1.35;
+  color:#132322;
 }
 .sub,.small{
   color:var(--muted);
-  line-height:1.65;
+  line-height:1.75;
+  font-size:16px;
 }
 .badge{
   display:inline-block;
-  margin-top:8px;
-  padding:6px 11px;
+  margin-top:10px;
+  padding:7px 13px;
   border-radius:999px;
-  background:#ccfbf1;
-  color:#115e59;
-  font-size:13px;
-  font-weight:800;
+  background:#d9f1ec;
+  color:#0d5850;
+  font-size:13.5px;
+  font-weight:700;
 }
 .card{
-  margin:14px 0;
-  padding:18px;
+  margin:16px 0;
+  padding:22px;
   border-radius:22px;
   background:#fff;
-  border:1px solid #dbeafe;
-  box-shadow:0 8px 24px rgba(15,23,42,.05);
+  border:1px solid var(--line);
+  box-shadow:0 8px 24px rgba(20,40,38,.06);
+}
+.card.primary{
+  border-color:#a7ddd3;
+  box-shadow:0 12px 30px rgba(14,125,114,.10);
 }
 h2{
-  margin:0 0 12px;
-  font-size:20px;
+  margin:0 0 14px;
+  font-size:19.5px;
+  font-weight:800;
+  line-height:1.4;
+  color:#132322;
 }
 
 /* 語言橫向捲動 */
@@ -123,45 +139,48 @@ h2{
   scroll-snap-align:center;
   border:1px solid var(--line);
   background:#fff;
+  color:#26403d;
   border-radius:999px;
   padding:13px 18px;
-  font-size:16px;
-  font-weight:850;
+  font-size:16.5px;
+  font-weight:700;
   text-align:center;
   cursor:pointer;
   white-space:nowrap;
   transition:.16s ease;
-  box-shadow:0 3px 10px rgba(15,23,42,.04);
+  box-shadow:0 3px 10px rgba(20,40,38,.05);
 }
 .lang:active{transform:scale(.97)}
 .lang.active{
   color:#fff;
+  font-weight:800;
   border-color:var(--p);
   background:linear-gradient(145deg,var(--p),var(--p2));
-  box-shadow:0 6px 16px rgba(15,118,110,.22);
+  box-shadow:0 6px 16px rgba(14,125,114,.24);
 }
 .scroll-hint{
-  margin:6px 0 0;
+  margin:8px 0 0;
   color:var(--muted);
-  font-size:12px;
+  font-size:14px;
   text-align:center;
 }
 
 .setting-group{margin-top:10px;}
 .label-title{
-  font-weight:800;
-  font-size:14px;
-  margin-bottom:6px;
+  font-weight:700;
+  font-size:15px;
+  margin-bottom:7px;
   display:block;
   color:var(--ink);
 }
 .select-input{
   width:100%;
-  padding:12px;
+  padding:13px;
   border-radius:12px;
   border:1px solid var(--line);
-  font-size:14px;
-  background:#f8fafc;
+  font-size:15px;
+  color:var(--ink);
+  background:#f7fbfa;
   margin-bottom:10px;
 }
 
@@ -173,7 +192,8 @@ h2{
   padding:16px;
   margin-top:10px;
   font-size:17px;
-  font-weight:900;
+  font-weight:800;
+  letter-spacing:.2px;
   cursor:pointer;
   transition:all .15s ease;
   display:flex;
@@ -184,43 +204,45 @@ h2{
 .btn:active{transform:scale(.98)}
 .btn-primary{
   color:#fff;
-  background:linear-gradient(135deg, #0d9488 0%, #0284c7 100%);
-  box-shadow:0 8px 24px rgba(2,132,199,.28);
+  background:linear-gradient(135deg, #0e7d72 0%, #1f8fae 100%);
+  box-shadow:0 8px 24px rgba(15,110,140,.26);
   font-size:18px;
 }
 .btn-shortcut{
   color:#4338ca;
-  background:#e0e7ff;
-  border:1px solid #c7d2fe;
+  background:#edf0fe;
+  border:1px solid #cdd4fb;
 }
 .secondary{
   color:var(--ink);
-  background:#f8fafc;
+  background:#f7fbfa;
   border:1px solid var(--line);
 }
 .rule-toggle{
-  color:#115e59;
-  background:#ecfdf5;
-  border:1px solid #99f6e4;
+  color:#0d5850;
+  background:#eaf7f4;
+  border:1px solid #a7ddd3;
 }
 
 .quick{
-  padding:13px;
+  padding:15px;
   border-radius:14px;
   background:var(--cyan);
-  color:#155e75;
-  font-weight:900;
+  color:#0b5566;
+  font-weight:800;
   text-align:center;
-  font-size:18px;
+  font-size:19px;
+  letter-spacing:.2px;
 }
 .prompt{
   white-space:pre-wrap;
-  background:#f8fafc;
-  border:1px dashed #94a3b8;
+  background:#f7fbfa;
+  border:1px dashed #9fc4bd;
   border-radius:14px;
-  padding:14px;
-  line-height:1.65;
-  font-size:14px;
+  padding:16px;
+  line-height:1.8;
+  font-size:15px;
+  color:#243836;
   max-height:300px;
   overflow:auto;
 }
@@ -229,28 +251,66 @@ h2{
 .rule-status{
   margin-top:8px;
   text-align:center;
-  font-size:12px;
+  font-size:13.5px;
   color:var(--muted);
 }
 .notice{
   margin-top:14px;
-  padding:14px;
+  padding:15px;
   border-radius:14px;
-  background:#fff7ed;
-  color:#9a3412;
-  line-height:1.7;
-  font-size:13.5px;
-  border:1px solid #ffedd5;
+  background:#fdf5ec;
+  color:#8a3d17;
+  line-height:1.8;
+  font-size:14.5px;
+  border:1px solid #f5e3cc;
 }
-.last{font-weight:900;color:#115e59;}
+.last{font-weight:800;color:#0d5850;}
 .toast-msg{
   text-align:center;
-  font-weight:800;
-  color:#0d9488;
+  font-weight:700;
+  color:#0e7d72;
   margin-top:10px;
   min-height:22px;
-  font-size:14px;
+  font-size:15px;
 }
+
+/* 次要設定：折疊區塊，讓主線路徑更直接 */
+.disclosure{
+  margin-top:14px;
+  border-top:1px dashed var(--line);
+  padding-top:12px;
+}
+.disclosure summary{
+  cursor:pointer;
+  font-weight:700;
+  font-size:15px;
+  color:var(--p);
+  list-style:none;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:2px 0;
+}
+.disclosure summary::-webkit-details-marker{display:none}
+.disclosure summary .chev{
+  transition:transform .15s ease;
+  color:var(--muted);
+  font-weight:900;
+}
+.disclosure[open] summary .chev{transform:rotate(180deg)}
+.disclosure .disclosure-body{margin-top:10px;}
+
+.step-status{
+  margin-top:12px;
+  padding:13px;
+  border-radius:14px;
+  background:#f7fbfa;
+  border:1px solid var(--line);
+  font-size:14.5px;
+  color:var(--muted);
+  text-align:center;
+}
+.step-status .last{font-size:15px;}
 
 /* 喚起導引浮層 */
 .guide-modal{
@@ -274,9 +334,9 @@ h2{
   text-align:center;
   box-shadow:0 20px 40px rgba(0,0,0,.25);
 }
-.guide-title{font-size:20px;font-weight:900;margin-bottom:12px;color:#0f172a;}
-.guide-steps{text-align:left;font-size:15px;line-height:1.8;color:#334155;margin:16px 0;}
-.guide-steps span{font-weight:800;color:#0f766e;}
+.guide-title{font-size:20px;font-weight:800;margin-bottom:12px;color:#132322;}
+.guide-steps{text-align:left;font-size:15.5px;line-height:1.85;color:#33443f;margin:16px 0;}
+.guide-steps span{font-weight:800;color:#0e7d72;}
 </style>
 </head>
 
@@ -286,65 +346,71 @@ h2{
 <section class="hero">
   <div class="logo">譯</div>
   <h1>多國語言雙向即時口譯</h1>
-  <div class="sub">PWA 11.0｜企業旗艦版<br>點選語言自動複製 Prompt，一鍵開啟口譯</div>
+  <div class="sub">選語言，直接開始口譯</div>
   <span class="badge">12 種語言 ✕ 專業語境最佳化</span>
 </section>
 
-<!-- ① 選擇語言與專業領域 -->
-<section class="card">
-  <h2>① 選擇口譯語言（點選自動複製）</h2>
+<!-- 主線：選語言 → 直接開始，兩步合一 -->
+<section class="card primary">
+  <h2>選擇語言，開始口譯</h2>
 
   <div class="language-scroll-shell">
     <button class="scroll-arrow" type="button" onclick="scrollLanguages(-1)" aria-label="往左捲動">‹</button>
     <div class="language-scroll" id="languageScroll"></div>
     <button class="scroll-arrow" type="button" onclick="scrollLanguages(1)" aria-label="往右捲動">›</button>
   </div>
-  <div class="scroll-hint">左右滑動切換語言（切換立即自動複製）</div>
+  <div class="scroll-hint" aria-live="polite">左右滑動或使用箭頭選擇語言</div>
 
-  <div class="setting-group" style="margin-top:16px;">
-    <label class="label-title" for="domainSelect">特定專業領域語氣：</label>
-    <select id="domainSelect" class="select-input" onchange="onDomainChange()">
-      <option value="general">🏢 正式商務與一般交流（預設）</option>
-      <option value="gov">🏛️ 政府機關 / 公務接待 / 參訪導覽</option>
-      <option value="tech">🔬 高科技 / 半導體 / AI 與工程</option>
-      <option value="medical">⚕️ 醫療公衛 / 生技健康</option>
-    </select>
+  <div class="step-status">
+    目前選擇：<span id="lastChoice" class="last">尚未設定</span>
   </div>
 
-  <p class="small">
-    目前選擇：<span id="lastChoice" class="last">尚未設定</span>
-  </p>
-</section>
-
-<!-- ② 啟動 ChatGPT / Voice -->
-<section class="card">
-  <h2>② 啟動口譯對話</h2>
-
-  <!-- 管道 1：開啟 ChatGPT App（最穩定通用） -->
   <button class="btn btn-primary" type="button" onclick="launchChatGPTFlow()">
-    🚀 開啟 ChatGPT 對話並進入口譯
-  </button>
-
-  <!-- 管道 2：iOS 捷徑一鍵直達 Voice Live -->
-  <button class="btn btn-shortcut" type="button" onclick="launchViaShortcut()">
-    🎙️ iOS 專用：透過捷徑直達 Voice Live
+    🚀 開啟 ChatGPT 並貼上，開始口譯
   </button>
 
   <div id="toastMsg" class="toast-msg"></div>
 
-  <div class="notice">
-    💡 <strong>為什麼無法由網頁直接開啟麥克風？</strong><br>
-    手機作業系統要求麥克風必須在 App 內手動點擊。點擊上方藍色按鈕後：<br>
-    <strong>長按對話框貼上 Prompt 發送 ➔ 點右下角耳機圖示</strong>，即可開始口譯！
-  </div>
+  <details class="disclosure">
+    <summary>為什麼要手動貼上？<span class="chev">▾</span></summary>
+    <div class="disclosure-body">
+      <div class="notice" style="margin-top:0;">
+        手機作業系統要求麥克風必須在 App 內手動點擊，網頁無法代為開啟。點擊上方按鈕後：<br>
+        <strong>長按對話框貼上 Prompt 發送 ➔ 點右下角耳機圖示</strong>，即可開始口譯！
+      </div>
+    </div>
+  </details>
+
+  <details class="disclosure" id="domainDisclosure">
+    <summary>調整專業領域語氣（預設：一般商務）<span class="chev">▾</span></summary>
+    <div class="disclosure-body">
+      <div class="setting-group" style="margin-top:0;">
+        <select id="domainSelect" class="select-input" onchange="onDomainChange()" style="margin-bottom:0;">
+          <option value="general">🏢 正式商務與一般交流（預設）</option>
+          <option value="gov">🏛️ 政府機關 / 公務接待 / 參訪導覽</option>
+          <option value="tech">🔬 高科技 / 半導體 / AI 與工程</option>
+          <option value="medical">⚕️ 醫療公衛 / 生技健康</option>
+        </select>
+      </div>
+    </div>
+  </details>
+
+  <details class="disclosure">
+    <summary>其他啟動方式（iOS 捷徑）<span class="chev">▾</span></summary>
+    <div class="disclosure-body">
+      <button class="btn btn-shortcut" type="button" onclick="launchViaShortcut()">
+        🎙️ 透過捷徑直達 Voice Live
+      </button>
+    </div>
+  </details>
 </section>
 
-<!-- ③ 快速指令與規則備查 -->
+<!-- 備查：快速指令與完整規則，收合於次要區塊 -->
 <section class="card">
-  <h2>③ 快速指令與規則備查</h2>
+  <h2>快速指令與規則備查</h2>
   <div id="quickCommand" class="quick" style="margin-bottom:12px;">請先選擇語言</div>
 
-  <button id="ruleToggleBtn" class="btn rule-toggle" type="button" onclick="toggleRules()">
+  <button id="ruleToggleBtn" class="btn rule-toggle" type="button" aria-expanded="false" aria-controls="rulePanel" onclick="toggleRules()">
     <span class="icon">▼</span> 檢視完整 Prompt 內容
   </button>
 
@@ -575,7 +641,12 @@ function showToast(msg){
 
 window.addEventListener("load", () => {
   const savedDomain = localStorage.getItem("pwa11Domain");
-  if(savedDomain) document.getElementById("domainSelect").value = savedDomain;
+  if(savedDomain){
+    document.getElementById("domainSelect").value = savedDomain;
+    if(savedDomain !== "general"){
+      document.getElementById("domainDisclosure").open = true;
+    }
+  }
   localStorage.removeItem("pwa11Glossary");
 
   renderLanguages();
