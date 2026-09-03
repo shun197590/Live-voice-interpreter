@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0e7d72">
+<meta name="theme-color" content="#f97316">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="雙向即時口譯">
 <link rel="manifest" href="./manifest.json">
@@ -12,22 +12,24 @@
 
 <style>
 :root{
-  --p:#0e7d72;
-  --p2:#2bab9e;
-  --ink:#1c2b2a;
-  --muted:#4b615e;
-  --line:#dbe8e4;
-  --soft:#eef8f5;
-  --cyan:#eaf5f3;
-  --bg1:#f6faf9;
-  --bg2:#eef7f4;
+  /* Icon 同款配色：暖橘黃漸層主體 ✕ 深海軍藍「譯」字 */
+  --p:#0f2b5c;           /* 深藍（對應圖示內的「譯」與麥克風） */
+  --p-accent:#1e3a8a;    /* 亮深藍 */
+  --orange:#f97316;      /* 暖橘 */
+  --amber:#f59e0b;       /* 金黃 */
+  --ink:#1e293b;         /* 內文深灰藍 */
+  --muted:#64748b;       /* 次要說明 */
+  --line:#fed7aa;        /* 暖杏色分隔線 */
+  --card-bg:#ffffff;     /* 卡片底色 */
+  --soft:#fff7ed;        /* 暖調淺底 */
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{
   margin:0;
   min-height:100vh;
-  background:linear-gradient(160deg,var(--bg1),var(--bg2));
+  /* 比照圖示外圈的暖橘轉金黃漸層 */
+  background:linear-gradient(170deg, #ffedd5 0%, #fef3c7 40%, #fff7ed 100%);
   font-family:"PingFang TC","Noto Sans TC","Microsoft JhengHei",
   -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
   font-size:17px;
@@ -43,61 +45,64 @@ body{
 }
 .hero{
   text-align:center;
-  padding:14px 0 10px;
+  padding:16px 0 12px;
 }
 .logo{
   width:88px;
   height:88px;
   margin:auto;
-  border-radius:24px;
+  border-radius:26px;
   display:grid;
   place-items:center;
-  background:linear-gradient(145deg,var(--p),var(--p2));
-  color:#fff;
-  font-size:34px;
+  /* 橘黃底 + 白色外框 + 深刻深藍字 */
+  background:linear-gradient(135deg, #ea580c, #f59e0b);
+  border:4px solid #ffffff;
+  color:var(--p);
+  font-size:38px;
   font-weight:900;
-  box-shadow:0 10px 28px rgba(14,125,114,.20);
+  box-shadow:0 12px 28px rgba(234,88,12,.32);
 }
 h1{
-  margin:14px 0 8px;
+  margin:14px 0 6px;
   font-size:28px;
-  font-weight:800;
+  font-weight:850;
   line-height:1.35;
-  color:#132322;
+  color:var(--p);
 }
 .sub,.small{
   color:var(--muted);
-  line-height:1.75;
-  font-size:16px;
+  line-height:1.7;
+  font-size:15.5px;
 }
 .badge{
   display:inline-block;
-  margin-top:10px;
-  padding:7px 13px;
+  margin-top:8px;
+  padding:6px 14px;
   border-radius:999px;
-  background:#d9f1ec;
-  color:#0d5850;
+  background:#ffedd5;
+  color:#c2410c;
+  border:1px solid #fdba74;
   font-size:13.5px;
-  font-weight:700;
+  font-weight:800;
 }
 .card{
   margin:16px 0;
   padding:22px;
-  border-radius:22px;
-  background:#fff;
-  border:1px solid var(--line);
-  box-shadow:0 8px 24px rgba(20,40,38,.06);
+  border-radius:24px;
+  background:var(--card-bg);
+  border:1.5px solid #ffedd5;
+  box-shadow:0 10px 30px rgba(234,88,12,.08);
 }
 .card.primary{
-  border-color:#a7ddd3;
-  box-shadow:0 12px 30px rgba(14,125,114,.10);
+  border-color:#fed7aa;
+  box-shadow:0 14px 34px rgba(249,115,22,.12);
 }
 h2{
   margin:0 0 14px;
   font-size:19.5px;
   font-weight:800;
   line-height:1.4;
-  color:#132322;
+  color:var(--p);
 }
 
 /* 語言橫向捲動 */
@@ -111,14 +116,14 @@ h2{
   flex:0 0 42px;
   width:42px;
   height:48px;
-  border:1px solid var(--line);
+  border:1.5px solid var(--line);
   border-radius:14px;
   background:#fff;
-  color:var(--p);
+  color:var(--orange);
   font-size:24px;
   font-weight:900;
   cursor:pointer;
-  box-shadow:0 3px 10px rgba(15,23,42,.06);
+  box-shadow:0 3px 10px rgba(234,88,12,.08);
 }
 .scroll-arrow:active{transform:scale(.96)}
 .language-scroll{
@@ -137,38 +142,38 @@ h2{
   flex:0 0 auto;
   min-width:132px;
   scroll-snap-align:center;
-  border:1px solid var(--line);
+  border:1.5px solid var(--line);
   background:#fff;
-  color:#26403d;
+  color:#334155;
   border-radius:999px;
   padding:13px 18px;
-  font-size:16.5px;
-  font-weight:700;
+  font-size:16px;
+  font-weight:750;
   text-align:center;
   cursor:pointer;
   white-space:nowrap;
-  transition:.16s ease;
-  box-shadow:0 3px 10px rgba(20,40,38,.05);
+  transition:.18s ease;
+  box-shadow:0 3px 10px rgba(234,88,12,.06);
 }
 .lang:active{transform:scale(.97)}
 .lang.active{
   color:#fff;
-  font-weight:800;
-  border-color:var(--p);
-  background:linear-gradient(145deg,var(--p),var(--p2));
-  box-shadow:0 6px 16px rgba(14,125,114,.24);
+  font-weight:850;
+  border-color:transparent;
+  background:linear-gradient(135deg, var(--p), var(--p-accent));
+  box-shadow:0 8px 20px rgba(15,43,92,.28);
 }
 .scroll-hint{
   margin:8px 0 0;
   color:var(--muted);
-  font-size:14px;
+  font-size:13.5px;
   text-align:center;
 }
 
 .setting-group{margin-top:10px;}
 .label-title{
-  font-weight:700;
-  font-size:15px;
+  font-weight:750;
+  font-size:14.5px;
   margin-bottom:7px;
   display:block;
   color:var(--ink);
@@ -176,11 +181,11 @@ h2{
 .select-input{
   width:100%;
   padding:13px;
-  border-radius:12px;
-  border:1px solid var(--line);
+  border-radius:14px;
+  border:1.5px solid var(--line);
   font-size:15px;
   color:var(--ink);
-  background:#f7fbfa;
+  background:#fffaf5;
   margin-bottom:10px;
 }
 
@@ -188,10 +193,10 @@ h2{
 .btn{
   width:100%;
   border:0;
-  border-radius:16px;
+  border-radius:18px;
   padding:16px;
   margin-top:10px;
-  font-size:17px;
+  font-size:17.5px;
   font-weight:800;
   letter-spacing:.2px;
   cursor:pointer;
@@ -202,47 +207,49 @@ h2{
   gap:8px;
 }
 .btn:active{transform:scale(.98)}
+
+/* 主按鈕：深藍配橘黃高光，營造主題識別度 */
 .btn-primary{
   color:#fff;
-  background:linear-gradient(135deg, #0e7d72 0%, #1f8fae 100%);
-  box-shadow:0 8px 24px rgba(15,110,140,.26);
+  background:linear-gradient(135deg, #0f2b5c 0%, #1e3a8a 100%);
+  box-shadow:0 10px 26px rgba(15,43,92,.25);
   font-size:18px;
 }
 .btn-shortcut{
-  color:#4338ca;
-  background:#edf0fe;
-  border:1px solid #cdd4fb;
+  color:#9a3412;
+  background:#ffedd5;
+  border:1.5px solid #fed7aa;
 }
 .secondary{
   color:var(--ink);
-  background:#f7fbfa;
-  border:1px solid var(--line);
+  background:#fffaf5;
+  border:1.5px solid var(--line);
 }
 .rule-toggle{
-  color:#0d5850;
-  background:#eaf7f4;
-  border:1px solid #a7ddd3;
+  color:#9a3412;
+  background:#fff7ed;
+  border:1.5px solid #fed7aa;
 }
 
 .quick{
   padding:15px;
-  border-radius:14px;
-  background:var(--cyan);
-  color:#0b5566;
-  font-weight:800;
+  border-radius:16px;
+  background:#ffedd5;
+  color:#9a3412;
+  font-weight:850;
   text-align:center;
   font-size:19px;
-  letter-spacing:.2px;
+  letter-spacing:.3px;
 }
 .prompt{
   white-space:pre-wrap;
-  background:#f7fbfa;
-  border:1px dashed #9fc4bd;
-  border-radius:14px;
+  background:#fffaf5;
+  border:1.5px dashed #fdba74;
+  border-radius:16px;
   padding:16px;
   line-height:1.8;
-  font-size:15px;
-  color:#243836;
+  font-size:14.5px;
+  color:#334155;
   max-height:300px;
   overflow:auto;
 }
@@ -251,30 +258,30 @@ h2{
 .rule-status{
   margin-top:8px;
   text-align:center;
-  font-size:13.5px;
+  font-size:13px;
   color:var(--muted);
 }
 .notice{
   margin-top:14px;
   padding:15px;
-  border-radius:14px;
-  background:#fdf5ec;
-  color:#8a3d17;
+  border-radius:16px;
+  background:#fff7ed;
+  color:#9a3412;
   line-height:1.8;
-  font-size:14.5px;
-  border:1px solid #f5e3cc;
+  font-size:14px;
+  border:1px solid #fed7aa;
 }
-.last{font-weight:800;color:#0d5850;}
+.last{font-weight:850;color:#c2410c;}
 .toast-msg{
   text-align:center;
-  font-weight:700;
-  color:#0e7d72;
+  font-weight:800;
+  color:#ea580c;
   margin-top:10px;
   min-height:22px;
   font-size:15px;
 }
 
-/* 次要設定：折疊區塊，讓主線路徑更直接 */
+/* 折疊區塊 */
 .disclosure{
   margin-top:14px;
   border-top:1px dashed var(--line);
@@ -282,14 +289,14 @@ h2{
 }
 .disclosure summary{
   cursor:pointer;
-  font-weight:700;
-  font-size:15px;
-  color:var(--p);
+  font-weight:750;
+  font-size:14.5px;
+  color:#ea580c;
   list-style:none;
   display:flex;
   align-items:center;
   justify-content:space-between;
-  padding:2px 0;
+  padding:3px 0;
 }
 .disclosure summary::-webkit-details-marker{display:none}
 .disclosure summary .chev{
@@ -303,16 +310,16 @@ h2{
 .step-status{
   margin-top:12px;
   padding:13px;
-  border-radius:14px;
-  background:#f7fbfa;
+  border-radius:16px;
+  background:#fffaf5;
   border:1px solid var(--line);
   font-size:14.5px;
   color:var(--muted);
   text-align:center;
 }
-.step-status .last{font-size:15px;}
+.step-status .last{font-size:15.5px;}
 
-/* 喚起導引浮層 */
+/* 導引浮層 */
 .guide-modal{
   display:none;
   position:fixed;
@@ -327,16 +334,17 @@ h2{
 .guide-modal.show{display:flex;}
 .guide-content{
   background:#fff;
-  padding:24px 20px;
-  border-radius:24px;
+  padding:26px 22px;
+  border-radius:26px;
   max-width:380px;
   width:100%;
   text-align:center;
-  box-shadow:0 20px 40px rgba(0,0,0,.25);
+  box-shadow:0 24px 50px rgba(15,43,92,.25);
+  border:2px solid #fed7aa;
 }
-.guide-title{font-size:20px;font-weight:800;margin-bottom:12px;color:#132322;}
-.guide-steps{text-align:left;font-size:15.5px;line-height:1.85;color:#33443f;margin:16px 0;}
-.guide-steps span{font-weight:800;color:#0e7d72;}
+.guide-title{font-size:20px;font-weight:850;margin-bottom:12px;color:var(--p);}
+.guide-steps{text-align:left;font-size:15px;line-height:1.85;color:#334155;margin:16px 0;}
+.guide-steps span{font-weight:850;color:#ea580c;}
 </style>
 </head>
 
@@ -350,7 +358,7 @@ h2{
   <span class="badge">12 種語言 ✕ 專業語境最佳化</span>
 </section>
 
-<!-- 主線：選語言 → 直接開始，兩步合一 -->
+<!-- 主線操作：選擇語言與啟動 -->
 <section class="card primary">
   <h2>選擇語言，開始口譯</h2>
 
@@ -405,7 +413,7 @@ h2{
   </details>
 </section>
 
-<!-- 備查：快速指令與完整規則，收合於次要區塊 -->
+<!-- 備查：快速指令與完整規則 -->
 <section class="card">
   <h2>快速指令與規則備查</h2>
   <div id="quickCommand" class="quick" style="margin-bottom:12px;">請先選擇語言</div>
@@ -591,13 +599,8 @@ function launchChatGPTFlow(){
     showToast("⚠️ 請先選擇語言！");
     return;
   }
-  // 先確保 Prompt 已最新複製
   autoCopyPrompt();
-
-  // 顯示操作指示彈窗
   document.getElementById("guideModal").classList.add("show");
-
-  // 嘗試喚起 App
   setTimeout(() => {
     window.location.href = "chatgpt://";
   }, 300);
@@ -615,8 +618,6 @@ function launchViaShortcut(){
   }
   autoCopyPrompt();
   showToast("🎙️ 正在透過 iOS 捷徑直達 Voice...");
-
-  // 預設捷徑名稱：口譯語音（可在 iPhone 捷徑 App 中自由建立）
   const shortcutName = encodeURIComponent("口譯語音");
   window.location.href = `shortcuts://run-shortcut?name=${shortcutName}`;
 }
