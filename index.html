@@ -12,12 +12,13 @@
 
 <style>
 :root{
+  /* Icon 經典配色（淡雅化調色） */
   --p:#0f2b5c;           /* 典雅深海軍藍（主文字、主按鈕、作用中狀態） */
   --p-accent:#1e3a8a;    /* 亮深藍 */
   --orange:#ea580c;      /* 暖橘重點色 */
   --amber:#f59e0b;       /* 金黃 */
   --ink:#1e293b;         /* 內文主要深色 */
-  --muted:#526478;       /* 說明次要文字 */
+  --muted:#526478;       /* 說明次要文字（稍微加深以保證可讀性） */
   --line:#ffedd5;        /* 極淡柔和杏橙分隔線 */
   --card-bg:#ffffff;     /* 卡片純白底 */
   --soft-grad-1:#fff8f2; /* 柔和淡橘米白 */
@@ -28,10 +29,11 @@ html{scroll-behavior:smooth}
 body{
   margin:0;
   min-height:100vh;
+  /* 稍淡溫潤的漸層背景，清爽舒適 */
   background:linear-gradient(175deg, var(--soft-grad-1) 0%, var(--soft-grad-2) 45%, #ffffff 100%);
   font-family:"PingFang TC","Noto Sans TC","Microsoft JhengHei",
   -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  font-size:18px;
+  font-size:18.5px; /* 全局基礎字體加大 */
   line-height:1.7;
   color:var(--ink);
   -webkit-font-smoothing:antialiased;
@@ -40,53 +42,53 @@ body{
 .wrap{
   max-width:780px;
   margin:auto;
-  padding:18px 14px 44px;
+  padding:20px 16px 48px;
 }
 .hero{
   text-align:center;
-  padding:14px 0 10px;
+  padding:16px 0 12px;
 }
 .logo{
-  width:88px;
-  height:88px;
+  width:92px;
+  height:92px;
   margin:auto;
-  border-radius:26px;
+  border-radius:28px;
   display:grid;
   place-items:center;
   background:linear-gradient(135deg, #f97316, #fbbf24);
   border:4px solid #ffffff;
   color:var(--p);
-  font-size:40px;
+  font-size:42px;
   font-weight:900;
-  box-shadow:0 10px 24px rgba(249,115,22,.18);
+  box-shadow:0 10px 24px rgba(249,115,22,.20);
 }
 h1{
-  margin:14px 0 6px;
-  font-size:29px;
+  margin:16px 0 6px;
+  font-size:31px; /* 標題加大 */
   font-weight:850;
-  line-height:1.3;
+  line-height:1.35;
   color:var(--p);
 }
-.sub{
+.sub,.small{
   color:var(--muted);
-  line-height:1.6;
-  font-size:16.5px;
+  line-height:1.75;
+  font-size:17px; /* 副標題加大 */
 }
 .badge{
   display:inline-block;
-  margin-top:8px;
-  padding:6px 14px;
+  margin-top:10px;
+  padding:7px 16px;
   border-radius:999px;
   background:#fff4e6;
   color:#c2410c;
   border:1px solid #ffd8a8;
-  font-size:14.5px;
+  font-size:15px; /* 標籤加大 */
   font-weight:800;
 }
 .card{
-  margin:16px 0;
-  padding:22px 18px;
-  border-radius:24px;
+  margin:18px 0;
+  padding:24px;
+  border-radius:26px;
   background:var(--card-bg);
   border:1.5px solid #ffe8cc;
   box-shadow:0 8px 24px rgba(234,88,12,.05);
@@ -96,8 +98,8 @@ h1{
   box-shadow:0 12px 30px rgba(249,115,22,.08);
 }
 h2{
-  margin:0 0 14px;
-  font-size:21px;
+  margin:0 0 16px;
+  font-size:22px; /* 區塊標題加大 */
   font-weight:800;
   line-height:1.4;
   color:var(--p);
@@ -107,18 +109,18 @@ h2{
 .language-scroll-shell{
   display:flex;
   align-items:center;
-  gap:8px;
+  gap:10px;
   width:100%;
 }
 .scroll-arrow{
-  flex:0 0 44px;
-  width:44px;
-  height:50px;
+  flex:0 0 46px;
+  width:46px;
+  height:52px;
   border:1.5px solid #ffd8a8;
-  border-radius:15px;
+  border-radius:16px;
   background:#fff;
   color:var(--orange);
-  font-size:24px;
+  font-size:26px; /* 捲動箭頭加大 */
   font-weight:900;
   cursor:pointer;
   box-shadow:0 3px 10px rgba(234,88,12,.06);
@@ -132,20 +134,20 @@ h2{
   scroll-snap-type:x mandatory;
   -webkit-overflow-scrolling:touch;
   scrollbar-width:none;
-  padding:4px 2px 8px;
+  padding:4px 2px 10px;
   flex:1 1 auto;
 }
 .language-scroll::-webkit-scrollbar{display:none}
 .lang{
   flex:0 0 auto;
-  min-width:136px;
+  min-width:142px;
   scroll-snap-align:center;
   border:1.5px solid #ffe8cc;
   background:#fff;
   color:#334155;
   border-radius:999px;
-  padding:13px 18px;
-  font-size:17.5px;
+  padding:14px 20px;
+  font-size:18px; /* 語言字體加大 */
   font-weight:800;
   text-align:center;
   cursor:pointer;
@@ -164,111 +166,109 @@ h2{
 .scroll-hint{
   margin:8px 0 0;
   color:var(--muted);
-  font-size:14.5px;
+  font-size:15px; /* 提示字體加大 */
   text-align:center;
 }
 
-.setting-group{margin-top:10px;}
+.setting-group{margin-top:12px;}
+.label-title{
+  font-weight:800;
+  font-size:16.5px; /* 表單標籤加大 */
+  margin-bottom:8px;
+  display:block;
+  color:var(--ink);
+}
 .select-input{
   width:100%;
-  padding:13px 14px;
+  padding:14px;
   border-radius:15px;
   border:1.5px solid #ffd8a8;
-  font-size:16.5px;
+  font-size:17px; /* 下拉選單加大 */
   color:var(--ink);
   background:#fffbf7;
-  margin-bottom:8px;
+  margin-bottom:10px;
 }
 
-/* 按鈕全面單行化規範 */
+/* 按鈕樣式 */
 .btn{
   width:100%;
   border:0;
-  border-radius:18px;
-  padding:16px 14px;
-  margin-top:10px;
-  font-size:18px;
+  border-radius:20px;
+  padding:17px 18px;
+  margin-top:12px;
+  font-size:19px; /* 按鈕文字加大 */
   font-weight:850;
-  letter-spacing:.2px;
+  letter-spacing:.3px;
   cursor:pointer;
   transition:all .15s ease;
   display:flex;
   align-items:center;
   justify-content:center;
-  gap:8px;
-  
-  /* 關鍵：強制所有按鈕文字單行顯示 */
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
+  gap:10px;
 }
 .btn:active{transform:scale(.98)}
 
-/* 主按鈕（直達 Voice） */
+/* 主按鈕：深藍核心質感 */
 .btn-primary{
   color:#fff;
   background:linear-gradient(135deg, #0f2b5c 0%, #1e3a8a 100%);
   box-shadow:0 8px 22px rgba(15,43,92,.22);
-  font-size:18.5px;
+  font-size:20px; /* 主按鈕特大化 */
 }
-.btn-secondary-action{
+.btn-shortcut{
   color:#9a3412;
   background:#fff4e6;
   border:1.5px solid #ffd8a8;
-  font-size:17px;
 }
 .secondary{
   color:var(--ink);
   background:#fffbf7;
   border:1.5px solid #ffd8a8;
-  font-size:17px;
 }
 .rule-toggle{
   color:#9a3412;
   background:#fff8f0;
   border:1.5px solid #ffd8a8;
-  font-size:17px;
 }
 
 .quick{
-  padding:15px;
-  border-radius:16px;
+  padding:16px;
+  border-radius:18px;
   background:#fff4e6;
   color:#9a3412;
   font-weight:850;
   text-align:center;
-  font-size:20px;
-  letter-spacing:.3px;
-  white-space:nowrap;
+  font-size:21px; /* 快速指令加大 */
+  letter-spacing:.4px;
 }
 .prompt{
   white-space:pre-wrap;
   background:#fffbf7;
   border:1.5px dashed #fbd38d;
-  border-radius:16px;
-  padding:16px;
-  line-height:1.8;
-  font-size:15.5px;
+  border-radius:18px;
+  padding:18px;
+  line-height:1.85;
+  font-size:16px; /* 規則內容加大 */
   color:#334155;
-  max-height:300px;
+  max-height:320px;
   overflow:auto;
 }
-.rule-panel{display:none;margin-top:12px;}
+.rule-panel{display:none;margin-top:14px;}
 .rule-panel.show{display:block;}
 .rule-status{
   margin-top:10px;
   text-align:center;
-  font-size:14px;
+  font-size:14.5px;
   color:var(--muted);
 }
 .notice{
   margin-top:14px;
-  padding:15px;
-  border-radius:16px;
+  padding:16px;
+  border-radius:18px;
   background:#fff9f2;
   color:#9a3412;
-  line-height:1.8;
-  font-size:15px;
+  line-height:1.85;
+  font-size:15.5px; /* 提示字體加大 */
   border:1px solid #ffd8a8;
 }
 .last{font-weight:900;color:#c2410c;}
@@ -276,28 +276,27 @@ h2{
   text-align:center;
   font-weight:800;
   color:#ea580c;
-  margin-top:10px;
+  margin-top:12px;
   min-height:24px;
-  font-size:16px;
+  font-size:16.5px; /* Toast 提示加大 */
 }
 
 /* 折疊區塊 */
 .disclosure{
   margin-top:14px;
   border-top:1px dashed #ffd8a8;
-  padding-top:12px;
+  padding-top:14px;
 }
 .disclosure summary{
   cursor:pointer;
   font-weight:800;
-  font-size:15.5px;
+  font-size:16px; /* 折疊標題加大 */
   color:#ea580c;
   list-style:none;
   display:flex;
   align-items:center;
   justify-content:space-between;
   padding:4px 0;
-  white-space:nowrap;
 }
 .disclosure summary::-webkit-details-marker{display:none}
 .disclosure summary .chev{
@@ -309,19 +308,18 @@ h2{
 .disclosure .disclosure-body{margin-top:12px;}
 
 .step-status{
-  margin-top:12px;
-  padding:12px;
-  border-radius:16px;
+  margin-top:14px;
+  padding:14px;
+  border-radius:18px;
   background:#fffbf7;
   border:1px solid #ffe8cc;
-  font-size:16px;
+  font-size:16.5px; /* 狀態欄加大 */
   color:var(--muted);
   text-align:center;
-  white-space:nowrap;
 }
-.step-status .last{font-size:17px;}
+.step-status .last{font-size:17.5px;}
 
-/* 彈窗導引 */
+/* 導引浮層 */
 .guide-modal{
   display:none;
   position:fixed;
@@ -336,25 +334,25 @@ h2{
 .guide-modal.show{display:flex;}
 .guide-content{
   background:#fff;
-  padding:26px 22px;
-  border-radius:26px;
-  max-width:390px;
+  padding:28px 24px;
+  border-radius:28px;
+  max-width:400px;
   width:100%;
   text-align:center;
   box-shadow:0 24px 50px rgba(15,43,92,.22);
   border:2px solid #ffd8a8;
 }
-.guide-title{font-size:21px;font-weight:850;margin-bottom:12px;color:var(--p);}
-.guide-steps{text-align:left;font-size:15.5px;line-height:1.85;color:#334155;margin:14px 0;}
+.guide-title{font-size:22px;font-weight:850;margin-bottom:14px;color:var(--p);}
+.guide-steps{text-align:left;font-size:16.5px;line-height:1.9;color:#334155;margin:16px 0;}
 .guide-steps span{font-weight:850;color:#ea580c;}
 
-@media(max-width:480px){
-  h1{font-size:26px;}
-  .wrap{padding-left:10px;padding-right:10px;}
-  .card{padding:18px 14px;}
-  .btn{font-size:16.5px;padding:15px 10px;}
-  .btn-primary{font-size:17px;}
-  .lang{min-width:125px;padding:11px 14px;font-size:16.5px;}
+@media(max-width:520px){
+  h1{font-size:28px;}
+  .wrap{padding-left:12px;padding-right:12px;}
+  .card{padding:18px;}
+  .scroll-arrow{flex-basis:42px;width:42px;height:48px;}
+  .lang{min-width:130px;padding:12px 16px;font-size:17px;}
+  .btn-primary{font-size:19px;}
 }
 </style>
 </head>
@@ -365,8 +363,8 @@ h2{
 <section class="hero">
   <div class="logo">譯</div>
   <h1>多國語言雙向即時口譯</h1>
-  <div class="sub">選語言，直接開啟口譯</div>
-  <span class="badge">12 種語言 ✕ 捷徑直接口譯免貼指令</span>
+  <div class="sub">選語言，直接開始口譯</div>
+  <span class="badge">12 種語言 ✕ 專業語境最佳化</span>
 </section>
 
 <!-- 主線操作：選擇語言與啟動 -->
@@ -378,33 +376,24 @@ h2{
     <div class="language-scroll" id="languageScroll"></div>
     <button class="scroll-arrow" type="button" onclick="scrollLanguages(1)" aria-label="往右捲動">›</button>
   </div>
-  <div class="scroll-hint">左右滑動選擇語言（自動預載口譯規則）</div>
+  <div class="scroll-hint" aria-live="polite">左右滑動或使用箭頭選擇語言</div>
 
   <div class="step-status">
     目前選擇：<span id="lastChoice" class="last">尚未設定</span>
   </div>
 
-  <!-- 主按鈕 1：iOS 捷徑直達 Voice（免手動貼上） -->
-  <button class="btn btn-primary" type="button" onclick="launchViaShortcut()">
-    🎙️ 捷徑直達 Voice Live（免貼指令）
-  </button>
-
-  <!-- 主按鈕 2：標準手動開啟 ChatGPT -->
-  <button class="btn btn-secondary-action" type="button" onclick="launchChatGPTFlow()">
-    🚀 開啟 ChatGPT 對話框手動發送
+  <button class="btn btn-primary" type="button" onclick="launchChatGPTFlow()">
+    🚀 開啟 ChatGPT 並貼上，開始口譯
   </button>
 
   <div id="toastMsg" class="toast-msg"></div>
 
   <details class="disclosure">
-    <summary>如何達成「免貼指令直接開始口譯」？<span class="chev">▾</span></summary>
+    <summary>為什麼要手動貼上？<span class="chev">▾</span></summary>
     <div class="disclosure-body">
       <div class="notice" style="margin-top:0;">
-        💡 <strong>iPhone 捷徑 1 步驟免貼指令設定：</strong><br>
-        1. 打開 iPhone「捷徑」App，新增名為 <strong>口譯語音</strong> 的捷徑。<br>
-        2. 搜尋加入 ChatGPT 的 <strong>「開始語音對話」</strong> 動作。<br>
-        3. 將該動作的對話指引參數設定為 <strong>「剪貼簿」</strong>。<br>
-        ✅ 之後點上方深藍按鈕，捷徑會自動將 Prompt 帶入背景並直達 Voice Live，完全不用再手動貼上！
+        手機作業系統要求麥克風必須在 App 內手動點擊，網頁無法代為開啟。點擊上方按鈕後：<br>
+        <strong>長按對話框貼上 Prompt 發送 ➔ 點右下角耳機圖示</strong>，即可開始口譯！
       </div>
     </div>
   </details>
@@ -420,6 +409,15 @@ h2{
           <option value="medical">⚕️ 醫療公衛 / 生技健康</option>
         </select>
       </div>
+    </div>
+  </details>
+
+  <details class="disclosure">
+    <summary>其他啟動方式（iOS 捷徑）<span class="chev">▾</span></summary>
+    <div class="disclosure-body">
+      <button class="btn btn-shortcut" type="button" onclick="launchViaShortcut()">
+        🎙️ 透過捷徑直達 Voice Live
+      </button>
     </div>
   </details>
 </section>
@@ -453,7 +451,7 @@ h2{
     <div class="guide-steps">
       進入 ChatGPT 後：<br>
       1. 對話框長按 <span>「貼上」</span> 並發送。<br>
-      2. 點擊右下角 <span>「耳機 / 聲波圖示」</span>。<br>
+      2. 點擊輸入框右側的 <span>「耳機 / 聲波圖示」</span>。<br>
       3. 立即開始即時雙向口譯！
     </div>
     <button class="btn btn-primary" type="button" onclick="closeGuide()">
@@ -555,7 +553,7 @@ async function chooseLanguage(id, triggerCopy = false){
   renderLanguages();
 
   if(triggerCopy){
-    await autoCopyPrompt(`✅ 已選擇【${selected.name}】，Prompt 已就緒！`);
+    await autoCopyPrompt(`✅ 已選擇【${selected.name}】，Prompt 已複製！`);
   }
 
   requestAnimationFrame(() => {
@@ -566,7 +564,7 @@ async function chooseLanguage(id, triggerCopy = false){
 
 async function onDomainChange(){
   updatePromptDisplay();
-  if(selected) await autoCopyPrompt("✅ 語氣已更新，Prompt 已同步！");
+  if(selected) await autoCopyPrompt("✅ 語氣已更新，Prompt 已同步複製！");
 }
 
 async function autoCopyPrompt(msg){
@@ -575,9 +573,9 @@ async function autoCopyPrompt(msg){
     const domainVal = document.getElementById("domainSelect").value;
     await navigator.clipboard.writeText(makePrompt(selected, domainVal));
     if(navigator.vibrate) navigator.vibrate([30, 20, 30]);
-    showToast(msg || "✅ Prompt 已載入剪貼簿！");
+    showToast(msg || "✅ Prompt 已自動複製！");
   }catch(e){
-    showToast("⚠️ 自動複製受限，請使用下方手動複製。");
+    showToast("⚠️ 自動複製受限，請點下方手動複製。");
   }
 }
 
@@ -604,24 +602,6 @@ function restoreRuleVisibility(){
   }
 }
 
-// 核心：透過捷徑喚起，背景直接注入 Prompt 直達 Voice Live
-async function launchViaShortcut(){
-  if(!selected){
-    showToast("⚠️ 請先選擇語言！");
-    return;
-  }
-  // 1. 先將最新語言規則寫入剪貼簿供捷徑抓取
-  await autoCopyPrompt();
-  showToast("🎙️ 正在透過捷徑直達 Voice Live...");
-
-  // 2. 觸發 iOS 捷徑（捷徑抓取剪貼簿後啟動語音對話）
-  const shortcutName = encodeURIComponent("口譯語音");
-  setTimeout(() => {
-    window.location.href = `shortcuts://run-shortcut?name=${shortcutName}`;
-  }, 250);
-}
-
-// 備援：手動開啟 ChatGPT App
 function launchChatGPTFlow(){
   if(!selected){
     showToast("⚠️ 請先選擇語言！");
@@ -636,6 +616,17 @@ function launchChatGPTFlow(){
 
 function closeGuide(){
   document.getElementById("guideModal").classList.remove("show");
+}
+
+function launchViaShortcut(){
+  if(!selected){
+    showToast("⚠️ 請先選擇語言！");
+    return;
+  }
+  autoCopyPrompt();
+  showToast("🎙️ 正在透過 iOS 捷徑直達 Voice...");
+  const shortcutName = encodeURIComponent("口譯語音");
+  window.location.href = `shortcuts://run-shortcut?name=${shortcutName}`;
 }
 
 async function copyPromptManually(){
